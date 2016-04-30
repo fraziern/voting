@@ -1,36 +1,26 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var QuestionList = require('./QuestionList');
-var lil = require ('lil-uuid');
+import React from 'react';
+import { Router, Route, browserHistory } from 'react-router';
+import ReactDOM from 'react-dom';
 
-const initJSON = [{
-  id: lil.uuid(),
-  title: 'Question 1',
-  choices: [{
-    title: 'Choice 1',
-    votes: 2
-  },{
-    title: 'Choice 2',
-    votes: 1
-  },{
-    title: 'Choice 3',
-    votes: 5
-  }],
-  owner: 'blerg'
-},{
-  id: lil.uuid(),
-  title: 'Question 2',
-  choices: [{
-    title: 'Choice 1',
-    votes: 2
-  },{
-    title: 'Choice 2',
-    votes: 10
-  },{
-    title: 'Choice 3',
-    votes: 5
-  }],
-  owner: 'blerg'
-}];
+// Layouts
+import MainLayout from './components/main-layout';
+import PollLayout from './components/poll-layout';
 
-ReactDOM.render( <QuestionList data={initJSON} />, document.getElementById('react-container'));
+// Flux
+var pollsStore = require('./pollsStore');
+var _polls = pollsStore.getPolls();
+pollsStore.onChange(function(polls) {
+  _polls = polls;
+  render();
+});
+
+function render() {
+  ReactDOM.render((
+    <Router history={browserHistory}>
+      <Route path="/" data={_polls} component={MainLayout} />
+      <Route path="poll" data={_polls} component={PollLayout} />
+    </Router>
+  ), document.getElementById('react-container'));
+}
+
+render();

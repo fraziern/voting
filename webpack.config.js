@@ -1,9 +1,3 @@
-var path = require('path');
-var webpack = require('webpack');
-
-// var BUILD_DIR = path.resolve(__dirname, 'public');
-// var APP_DIR = path.resolve(__dirname, 'app');
-
 var config = {
   entry: {
     main: './js/main.js'

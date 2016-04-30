@@ -4,7 +4,7 @@
     ],
     'rules': {
         'indent': [
-            2,
+            1,
             2
         ],
         'quotes': [
