@@ -6,9 +6,9 @@ import { createStore } from 'redux';
 import PollsReducer from './polls-reducer';
 
 // Layouts
-import MainLayout from './components/main-layout';
+import MainLayout from './components/MainLayout';
 import VisiblePollLayout from './components/VisiblePollLayout';
-import NewpollLayout from './components/newpoll-layout';
+import NewpollLayout from './components/NewpollLayout';
 
 // Flux
 // var pollsStore = require('./pollsStore');

@@ -1,16 +1,17 @@
 import { connect } from 'react-redux';
 var PollLayout = require('./PollLayout');
 
-function getPoll(state, pollId) {
-  for (var i = 0; i < state.length; i++) {
-    if (state[i].id === pollId) return state[i];
+function getPoll(polls, pollId) {
+  console.log('Getting poll');
+  for (var i = 0; i < polls.length; i++) {
+    if (polls[i].id === pollId) return polls[i];
   }
-  return state[0];
+  return polls[0];
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    data: getPoll(state, ownProps.params.pollId)
+    data: getPoll(state.polls, ownProps.params.pollId)
   };
 };
 

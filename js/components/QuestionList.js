@@ -9,7 +9,7 @@ class QuestionList extends React.Component {
 
     return (
       <ul className="question-list list-group list-unstyled">
-        {state.map(function(el) {
+        {state.polls.map(function(el) {
           let voteTotal = 0;
           el.choices.forEach(function (elm) {
             voteTotal += elm.votes;

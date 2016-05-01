@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-plugin-transform-object-assign": "^6.5.0",
     "d3": "^3.5.16",
     "dotenv": "^2.0.0",
     "express": "^4.13.4",

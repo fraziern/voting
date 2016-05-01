@@ -9,9 +9,9 @@ class ChoicePanel extends React.Component {
   render() {
     return (
       <div className="choice-panel">
-        <h2>{this.props.data.title}</h2>
+        <h2>{this.props.data.choices[0].votes}</h2>
         <h3>I'd like to vote for...</h3>
-        <ChoiceList data={this.props.data} addVote={this.props.addVote} s/>
+        <ChoiceList data={this.props.data} addVote={this.props.addVote} />
       </div>
     );
   }

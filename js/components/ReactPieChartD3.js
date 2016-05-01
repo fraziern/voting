@@ -63,6 +63,6 @@ ReactPieChartD3.update = function (el, props) {
 };
 
 /** Any necessary cleanup */
-ReactPieChartD3.destroy = function (el) {};
+ReactPieChartD3.destroy = function () {};
 
 module.exports = ReactPieChartD3;
