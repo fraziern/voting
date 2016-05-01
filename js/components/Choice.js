@@ -1,4 +1,4 @@
-var React = require('react');
+import React, { PropTypes } from 'react';
 
 class Choice extends React.Component {
   constructor(props) {
@@ -8,18 +8,26 @@ class Choice extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    this.props.addVote({
+    var action = {
       type: 'ADD_VOTE',
       id: this.props.id,
-      choice: this.props.choice
-    });
+      title: this.props.title
+    };
+    console.log(action);
+    this.props.addVote(action);
   }
 
   render() {
     return (<li className="list-choice-item">
-        <button type="button" onClick={this.handleClick} className="btn btn-primary btn-block">{this.props.choice}</button>
+        <button type="button" onClick={this.handleClick} className="btn btn-primary btn-block">{this.props.title}</button>
       </li>);
   }
 }
+
+Choice.PropTypes = {
+  addVote: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  choice: PropTypes.object.isRequired
+};
 
 module.exports = Choice;

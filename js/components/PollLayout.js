@@ -1,4 +1,4 @@
-var React = require('react');
+import React, { PropTypes } from 'react';
 var ChoicePanel = require('./ChoicePanel');
 var ReactPieChart = require('./ReactPieChart');
 
@@ -16,5 +16,10 @@ class PollLayout extends React.Component {
     );
   }
 }
+
+PollLayout.PropTypes = {
+  data: PropTypes.object.isRequired,
+  addVotes: PropTypes.func.isRequired
+};
 
 module.exports = PollLayout;

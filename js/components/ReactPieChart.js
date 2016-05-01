@@ -8,12 +8,10 @@ var ReactDOM = require('react-dom');
 
 class ReactPieChart extends React.Component {
   componentDidMount () {
-    console.log('D3 mounted!');
     ReactPieChartD3.create(this.getDOMNode(), this.getChartState());
   }
 
   componentDidUpdate () {
-    console.log('D3 updated!');
     ReactPieChartD3.update(this.getDOMNode(), this.getChartState());
   }
 

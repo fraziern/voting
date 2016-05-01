@@ -6,15 +6,14 @@ class QuestionList extends React.Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-
     return (
       <ul className="question-list list-group list-unstyled">
-        {state.polls.map(function(el) {
+        {state.map(function(el) {
           let voteTotal = 0;
-          el.choices.forEach(function (elm) {
-            voteTotal += elm.votes;
+          el.get('choices').forEach(function (elm) {
+            voteTotal += elm.get('votes');
           });
-          return (<Question key={el.id} id={el.id} title={el.title} votes={voteTotal} />);
+          return (<Question key={el.get('id')} id={el.get('id')} title={el.get('title')} votes={voteTotal} />);
         })}
       </ul>
     );

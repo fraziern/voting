@@ -10,14 +10,6 @@ import MainLayout from './components/MainLayout';
 import VisiblePollLayout from './components/VisiblePollLayout';
 import NewpollLayout from './components/NewpollLayout';
 
-// Flux
-// var pollsStore = require('./pollsStore');
-// var _polls = pollsStore.getPolls();
-// pollsStore.onChange(function(polls) {
-//   _polls = polls;
-//   render();
-// });
-
 let store = createStore(PollsReducer);
 
 render(
