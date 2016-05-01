@@ -5,10 +5,17 @@ class MainLayout extends React.Component {
   render() {
     return (
       <div className="main-layout">
-        <QuestionList data={this.props.route.data} />
+        <div className="questions-header">
+          <h1>Latest Polls</h1>
+        </div>
+        <QuestionList />
       </div>
     );
   }
 }
+
+// MainLayout.contextTypes = {
+//   store: React.PropTypes.object
+// };
 
 module.exports = MainLayout;

@@ -1,4 +1,3 @@
-var dispatcher = require('./dispatcher');
 var lil = require('lil-uuid');
 
 function PollsStore() {
@@ -41,7 +40,18 @@ function PollsStore() {
     listeners.push(listener);
   }
 
-  function addPoll(poll) {
+  function addPoll(title, choices) {
+    var poll = {
+      id: lil.uuid(),
+      title: title,
+      choices: []
+    };
+    choices.split(',').forEach(function (el) {
+      poll.choices.push({
+        title: el.trim(),
+        votes: 0
+      });
+    });
     polls.push(poll);
     triggerListeners();
   }
@@ -76,12 +86,19 @@ function PollsStore() {
           break;
       }
     }
+    else if (split[0] === 'poll') {
+      switch (split[1]) {
+        case 'newPoll':
+          addPoll(payload.title, payload.choices);
+          break;
+      }
+    }
   });
 
   return {
     getPolls: getPolls,
     onChange: onChange,
-    adPoll: addPoll,
+    addPoll: addPoll,
     updateVote: updateVote
   };
 }

@@ -5,11 +5,13 @@ var ReactPieChart = require('./ReactPieChart');
 require('../../css/style.scss');
 
 class PollLayout extends React.Component {
+
   render() {
+
     return (
       <div className="poll-layout">
-        <ChoicePanel data={this.props.route.data[1]} />
-        <ReactPieChart data={this.props.route.data[1]} />
+        <ChoicePanel data={this.props.data} addVote={this.props.addVote} />
+        <ReactPieChart data={this.props.data} />
       </div>
     );
   }

@@ -1,5 +1,4 @@
 var React = require('react');
-var actions = require('../VotingActions');
 
 class Choice extends React.Component {
   constructor(props) {
@@ -9,7 +8,11 @@ class Choice extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    actions.updateVote(this.props.id, this.props.choice);
+    this.props.addVote({
+      type: 'ADD_VOTE',
+      id: this.props.id,
+      choice: this.props.choice
+    });
   }
 
   render() {
