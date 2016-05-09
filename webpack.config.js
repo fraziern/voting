@@ -1,4 +1,5 @@
 var config = {
+  debug: true,
   entry: {
     main: './js/main.js'
   },

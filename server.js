@@ -1,19 +1,25 @@
 process.env.NODE_ENV = 'test';
 
 var express = require('express');
-// var mongoose = require('mongoose');
+var mongoose = require('mongoose');
+
+var poll = require('./routes/poll.routes');
+var dummyData = require('./dummyData');
+
 // require('dotenv').config();
 var app = express();
 
-// mongoose.connect(process.env.MONGODB_URI, function (err) {
-//   if (err) {
-//     console.log('Error connecting to the database. ' + err);
-//   } else {
-//     console.log('Connected to Database: ' + process.env.MONGODB_URI);
-//   }
-// });
+mongoose.connect('mongodb://localhost/test', function (err) {
+  if (err) {
+    console.log('Error connecting to the database. ' + err);
+  } else {
+    console.log('Connected to Database: ' + 'mongodb://localhost/test');
+  }
+});
 
+app.use('/api',  poll);
 app.use(express.static(__dirname + '/public'));
+
 
 app.get('*', function(req, res){
   console.log('Request: [GET]', req.originalUrl);
