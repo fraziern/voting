@@ -6,6 +6,8 @@ var mongoose = require('mongoose');
 var poll = require('./routes/poll.routes');
 var dummyData = require('./dummyData');
 
+dummyData();
+
 // require('dotenv').config();
 var app = express();
 

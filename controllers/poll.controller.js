@@ -1,7 +1,7 @@
 var Poll = require('../models/poll');
 var lil = require('lil-uuid');
 
-function PollController() {
+var PollController = function() {
   function getPolls(req, res) {
     Poll.find().exec(function(err, polls) {
       if (err) {
@@ -37,6 +37,6 @@ function PollController() {
     getPolls: getPolls,
     addPoll:  addPoll
   };
-}
+}();
 
 module.exports = PollController;

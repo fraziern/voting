@@ -1,9 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-// import mongoose from 'mongoose';
-// const Schema = mongoose.Schema;
-
 var pollSchema = new Schema({
   id:     String,
   title:  String,

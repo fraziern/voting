@@ -41,5 +41,5 @@ module.exports = function () {
         console.log('ready to go...');
       }
     });
-  })
-}
+  });
+};
