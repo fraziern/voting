@@ -2,9 +2,9 @@ process.env.NODE_ENV = 'test';
 
 var express = require('express');
 var mongoose = require('mongoose');
-
 var poll = require('./routes/poll.routes');
 var dummyData = require('./dummyData');
+var bodyParser = require('body-parser');
 
 dummyData();
 
@@ -19,6 +19,7 @@ mongoose.connect('mongodb://localhost/test', function (err) {
   }
 });
 
+app.use(bodyParser.json());
 app.use('/api',  poll);
 app.use(express.static(__dirname + '/public'));
 
