@@ -19,7 +19,7 @@ class PollLayout extends React.Component {
 
 PollLayout.PropTypes = {
   data: PropTypes.object.isRequired,
-  addVotes: PropTypes.func.isRequired
+  addVote: PropTypes.func.isRequired
 };
 
 module.exports = PollLayout;

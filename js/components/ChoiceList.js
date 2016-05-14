@@ -20,7 +20,7 @@ class ChoiceList extends React.Component {
 
 ChoiceList.PropTypes = {
   data: PropTypes.object.isRequired,
-  addVotes: PropTypes.func.isRequired
+  addVote: PropTypes.func.isRequired
 };
 
 module.exports = ChoiceList;

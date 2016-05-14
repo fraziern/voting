@@ -19,7 +19,7 @@ class ChoicePanel extends React.Component {
 
 ChoicePanel.PropTypes = {
   data: PropTypes.object.isRequired,
-  addVotes: PropTypes.func.isRequired
+  addVote: PropTypes.func.isRequired
 };
 
 module.exports = ChoicePanel;
