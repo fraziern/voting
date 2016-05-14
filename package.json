@@ -7,6 +7,9 @@
     "test": "mocha",
     "start": "node server.js"
   },
+  "engines": {
+    "node": "6.1.0"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
