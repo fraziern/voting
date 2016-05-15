@@ -13,4 +13,10 @@ class Question extends React.Component {
   }
 }
 
+Question.propTypes = {
+  id: React.PropTypes.object,
+  title: React.PropTypes.string,
+  votes: React.PropTypes.object
+};
+
 module.exports = Question;

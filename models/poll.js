@@ -7,4 +7,12 @@ var pollSchema = new Schema({
   owner:  String
 });
 
+pollSchema.virtual('id').get(function() {
+  return this._id.toHexString();
+});
+
+pollSchema.set('toJSON', {
+  virtuals: true
+});
+
 module.exports = mongoose.model('Poll', pollSchema);

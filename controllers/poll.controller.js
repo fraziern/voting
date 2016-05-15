@@ -3,7 +3,9 @@ var Poll = require('../models/poll');
 
 var PollController = function() {
   function getPolls(req, res) {
-    Poll.find().exec(function(err, polls) {
+    Poll.find()
+      .select('id owner title choices')
+      .exec(function(err, polls) {
       if (err) {
         return res.status(500).send(err);
       }

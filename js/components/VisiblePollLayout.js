@@ -10,7 +10,7 @@ function getPoll(polls, pollId) {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    data: getPoll(state, ownProps.params.pollId)
+    data: getPoll(state.polls, ownProps.params.pollId)
   };
 };
 
