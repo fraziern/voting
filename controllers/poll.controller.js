@@ -4,8 +4,8 @@ var Poll = require('../models/poll');
 var PollController = function() {
   function getPolls(req, res) {
     Poll.find()
-      .select('id owner title choices')
-      .exec(function(err, polls) {
+    .select('id owner title choices')
+    .exec(function(err, polls) {
       if (err) {
         return res.status(500).send(err);
       }
@@ -34,9 +34,28 @@ var PollController = function() {
     });
   }
 
+  function addVote(req, res) {
+    if (!req.body.pollID || !req.body.choiceTitle) {
+      return res.status(403).json(req.body).end();
+    }
+    
+    var pollID = req.body.pollID;
+    var choiceTitle = req.body.choiceTitle;
+
+    var query = {_id: pollID, 'choices.title': choiceTitle};
+    var update = { $inc: {'choices.$.votes': 1}};
+
+    Poll.update(query, update, function (err, saved) {
+      if (err) return res.status(500).send(err);
+      return res.json({poll: saved});
+    });
+
+  }
+
   return {
     getPolls: getPolls,
-    addPoll:  addPoll
+    addPoll:  addPoll,
+    addVote:  addVote
   };
 }();
 

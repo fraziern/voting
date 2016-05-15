@@ -20,9 +20,9 @@ mongoose.connect('mongodb://localhost/test', function (err) {
 });
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api',  poll);
 app.use(express.static(__dirname + '/public'));
-
 
 app.get('*', function(req, res){
   console.log('Request: [GET]', req.originalUrl);

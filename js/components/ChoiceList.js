@@ -11,7 +11,7 @@ class ChoiceList extends React.Component {
     return (
       <ul className="choice-list list-group list-unstyled">
         {this.props.data.choices.map(function(el) {
-          return (<Choice key={el.title} title={el.title} id={this.props.data.id} addVote={this.props.addVote} />);
+          return (<Choice key={el.title} title={el.title} id={this.props.data.id} dispatch={this.props.dispatch} />);
         },this)}
       </ul>
     );
@@ -20,7 +20,7 @@ class ChoiceList extends React.Component {
 
 ChoiceList.PropTypes = {
   data: PropTypes.object.isRequired,
-  addVote: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired
 };
 
 module.exports = ChoiceList;

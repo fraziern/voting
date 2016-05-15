@@ -21,6 +21,7 @@
     "express": "^4.13.4",
     "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.2.1",
+    "jquery": "^2.2.3",
     "lil-uuid": "^0.1.1",
     "mongoose": "^4.4.12",
     "react": "^15.0.2",

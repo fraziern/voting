@@ -1,9 +1,14 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var choiceSchema = new Schema({
+  title: String,
+  votes: Number
+});
+
 var pollSchema = new Schema({
   title:  String,
-  choices: [{ title: String, votes: Number }],
+  choices: [choiceSchema],
   owner:  String
 });
 

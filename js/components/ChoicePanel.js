@@ -10,8 +10,8 @@ class ChoicePanel extends React.Component {
     return (
       <div className="choice-panel">
         <h2>{this.props.data.title}</h2>
-        <h3>I'd like to vote for...</h3>
-        <ChoiceList data={this.props.data} addVote={this.props.addVote} />
+        <h3>I would like to vote for...</h3>
+        <ChoiceList data={this.props.data} dispatch={this.props.dispatch} />
       </div>
     );
   }
@@ -19,7 +19,7 @@ class ChoicePanel extends React.Component {
 
 ChoicePanel.PropTypes = {
   data: PropTypes.object.isRequired,
-  addVote: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired
 };
 
 module.exports = ChoicePanel;

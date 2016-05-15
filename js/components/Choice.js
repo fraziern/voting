@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { addVoteAction } from '../actions';
 
 class Choice extends React.Component {
   constructor(props) {
@@ -8,13 +9,8 @@ class Choice extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    var action = {
-      type: 'ADD_VOTE',
-      id: this.props.id,
-      title: this.props.title
-    };
-    console.log(action);
-    this.props.addVote(action);
+    const { dispatch } = this.props;
+    dispatch(addVoteAction(this.props.id, this.props.title));
   }
 
   render() {

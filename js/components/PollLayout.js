@@ -10,7 +10,7 @@ class PollLayout extends React.Component {
 
     return (
       <div className="poll-layout">
-        <ChoicePanel data={this.props.data} addVote={this.props.addVote} />
+        <ChoicePanel data={this.props.data} dispatch={this.props.dispatch} />
         <ReactPieChart data={this.props.data} />
       </div>
     );
@@ -19,7 +19,7 @@ class PollLayout extends React.Component {
 
 PollLayout.PropTypes = {
   data: PropTypes.object.isRequired,
-  addVote: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired
 };
 
 module.exports = PollLayout;

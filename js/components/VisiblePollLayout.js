@@ -3,26 +3,26 @@ var PollLayout = require('./PollLayout');
 
 function getPoll(polls, pollId) {
   for (var i = 0; i < polls.length; i++) {
-    if (polls.getIn([i, 'id']) === pollId) return polls.get(i).toJS();
+    if (polls[i].id === pollId) return polls[i];
   }
-  return polls.get(0).toJS();
+  return undefined;
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    data: getPoll(state.polls, ownProps.params.pollId)
+    data: getPoll(state.toJS().polls, ownProps.params.pollId)
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addVote: dispatch
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     addVote: dispatch
+//   };
+// };
 
 const VisiblePollLayout = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
+  // mapDispatchToProps
 )(PollLayout);
 
 module.exports = VisiblePollLayout;

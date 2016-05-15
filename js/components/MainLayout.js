@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import QuestionList from './QuestionList';
-import fetchPollsIfNeeded from '../actions';
+import { fetchPollsIfNeeded } from '../actions';
 
 class MainLayout extends React.Component {
   componentDidMount() {

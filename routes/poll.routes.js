@@ -10,10 +10,7 @@ router.route('/getPolls').get(PollController.getPolls);
 // Add a new Poll
 router.route('/addPoll').post(PollController.addPoll);
 
-// Get one post by title
-// router.route('/getPost').get(PostController.getPost);
-
-// Delete a Post
-// router.route('/deletePost').post(PostController.deletePost);
+// Add a vote to an existing poll and choice
+router.route('/addVote').post(PollController.addVote);
 
 module.exports = router;
