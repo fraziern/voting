@@ -1,12 +1,13 @@
 var React = require('react');
-// var actions = require('../NewpollActions');
-
+import { addPoll } from '../actions';
+import { connect } from 'react-redux';
 
 // TODO input validation
 
-class MainLayout extends React.Component {
+class NewPollLayout extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {title: '', choices: ''};
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleChoicesChange = this.handleChoicesChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,8 +22,10 @@ class MainLayout extends React.Component {
   }
 
   handleSubmit(e) {
+    const { dispatch } = this.props;
     console.log(this.state);
-    actions.addPoll(this.state.title, this.state.choices);
+    dispatch(addPoll(this.state.title, this.state.choices));
+    this.setState({title: '', choices: ''});
     e.preventDefault();
   }
 
@@ -35,11 +38,25 @@ class MainLayout extends React.Component {
         <form>
           <div className="form-group">
             <label HTMLfor="inputTitle">Title</label>
-            <input type="text" onChange={this.handleTitleChange} className="form-control" id="inputTitle" placeholder="New Title" />
+            <input
+              type="text"
+              onChange={this.handleTitleChange}
+              className="form-control"
+              id="inputTitle"
+              placeholder="New Title"
+              value={this.state.title}
+            />
           </div>
           <div className="form-group">
             <label HTMLfor="inputChoices">Choices (comma-separated)</label>
-            <input type="text" onChange={this.handleChoicesChange} className="form-control" id="inputChoice" placeholder="Choice 1, Choice 2" />
+            <input
+              type="text"
+              onChange={this.handleChoicesChange}
+              className="form-control"
+              id="inputChoice"
+              placeholder="Choice 1, Choice 2"
+              value={this.state.choices}
+            />
           </div>
           <button onClick={this.handleSubmit} className="btn btn-default">Create</button>
         </form>
@@ -48,4 +65,12 @@ class MainLayout extends React.Component {
   }
 }
 
-module.exports = MainLayout;
+NewPollLayout.propTypes = {
+  dispatch: React.PropTypes.func.isRequired
+};
+
+function mapStateToProps(state) {
+  return { polls: state.toJS().polls };
+}
+
+module.exports = connect(mapStateToProps)(NewPollLayout);

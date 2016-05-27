@@ -57,3 +57,11 @@ export function addVoteAction(pollID, choiceTitle) {
       });
   };
 }
+
+export function addPoll(title, choices) {
+  return {
+    type: 'ADD_POLL',
+    title,
+    choices
+  };
+}

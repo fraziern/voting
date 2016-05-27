@@ -31,6 +31,20 @@ function polls(state = defaultPolls, action) {
       var newState = state.set('isFetching', false);
       return newState.set('polls', Immutable.fromJS(action.polls));
 
+    case 'ADD_POLL':
+      // action.title: Title
+      // action.choices: comma separated choices
+      var newPoll = {title: action.title, owner: '', choices: []};
+      action.choices.split(',').forEach( function (el) {
+        newPoll.choices.push({
+          title: el.trim(),
+          votes: 0
+        });
+      });
+      var newPollList = Immutable.fromJS(newPoll);
+      console.log(newPollList);
+      return state.set('polls', state.get('polls').push(newPollList));
+
     default:
       return state;
   }

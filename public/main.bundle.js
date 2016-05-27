@@ -68,6 +68,10 @@
 
 	var _immutable = __webpack_require__(252);
 
+	var _Header = __webpack_require__(276);
+
+	var _Header2 = _interopRequireDefault(_Header);
+
 	var _VisibleMainLayout = __webpack_require__(253);
 
 	var _VisibleMainLayout2 = _interopRequireDefault(_VisibleMainLayout);
@@ -76,13 +80,16 @@
 
 	var _VisiblePollLayout2 = _interopRequireDefault(_VisiblePollLayout);
 
-	var _NewpollLayout = __webpack_require__(274);
+	var _NewPollLayout = __webpack_require__(275);
 
-	var _NewpollLayout2 = _interopRequireDefault(_NewpollLayout);
+	var _NewPollLayout2 = _interopRequireDefault(_NewPollLayout);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var React = __webpack_require__(6);
+
+	// Top level Header
+
 
 	// Layouts
 
@@ -106,9 +113,13 @@
 	    React.createElement(
 	      _reactRouter.Router,
 	      { history: _reactRouter.browserHistory },
-	      React.createElement(_reactRouter.Route, { path: '/', component: _VisibleMainLayout2.default }),
-	      React.createElement(_reactRouter.Route, { path: 'poll/:pollId', component: _VisiblePollLayout2.default }),
-	      React.createElement(_reactRouter.Route, { path: 'newpoll', component: _NewpollLayout2.default })
+	      React.createElement(
+	        _reactRouter.Route,
+	        { component: _Header2.default },
+	        React.createElement(_reactRouter.Route, { path: '/', component: _VisibleMainLayout2.default }),
+	        React.createElement(_reactRouter.Route, { path: 'poll/:pollId', component: _VisiblePollLayout2.default }),
+	        React.createElement(_reactRouter.Route, { path: 'newpoll', component: _NewPollLayout2.default })
+	      )
 	    )
 	  )
 	), document.getElementById('react-container'));
@@ -27839,6 +27850,20 @@
 	      var newState = state.set('isFetching', false);
 	      return newState.set('polls', Immutable.fromJS(action.polls));
 
+	    case 'ADD_POLL':
+	      // action.title: Title
+	      // action.choices: comma separated choices
+	      var newPoll = { title: action.title, owner: '', choices: [] };
+	      action.choices.split(',').forEach(function (el) {
+	        newPoll.choices.push({
+	          title: el.trim(),
+	          votes: 0
+	        });
+	      });
+	      var newPollList = Immutable.fromJS(newPoll);
+	      console.log(newPollList);
+	      return state.set('polls', state.get('polls').push(newPollList));
+
 	    default:
 	      return state;
 	  }
@@ -28315,6 +28340,7 @@
 	});
 	exports.fetchPollsIfNeeded = fetchPollsIfNeeded;
 	exports.addVoteAction = addVoteAction;
+	exports.addPoll = addPoll;
 
 	var _isomorphicFetch = __webpack_require__(258);
 
@@ -28379,6 +28405,14 @@
 	    }).fail(function (err) {
 	      console.log(err);
 	    });
+	  };
+	}
+
+	function addPoll(title, choices) {
+	  return {
+	    type: 'ADD_POLL',
+	    title: title,
+	    choices: choices
 	  };
 	}
 
@@ -30478,15 +30512,7 @@
 	  };
 	};
 
-	// const mapDispatchToProps = (dispatch) => {
-	//   return {
-	//     addVote: dispatch
-	//   };
-	// };
-
-	var VisiblePollLayout = (0, _reactRedux.connect)(mapStateToProps
-	// mapDispatchToProps
-	)(PollLayout);
+	var VisiblePollLayout = (0, _reactRedux.connect)(mapStateToProps)(PollLayout);
 
 	module.exports = VisiblePollLayout;
 
@@ -31216,12 +31242,17 @@
 
 
 /***/ },
-/* 274 */
+/* 274 */,
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _actions = __webpack_require__(257);
+
+	var _reactRedux = __webpack_require__(231);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -31230,93 +31261,226 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(6);
-	// var actions = require('../NewpollActions');
+
 
 	// TODO input validation
 
-	var MainLayout = function (_React$Component) {
-	  _inherits(MainLayout, _React$Component);
+	var NewPollLayout = function (_React$Component) {
+	  _inherits(NewPollLayout, _React$Component);
 
-	  function MainLayout(props) {
-	    _classCallCheck(this, MainLayout);
+	  function NewPollLayout(props) {
+	    _classCallCheck(this, NewPollLayout);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MainLayout).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NewPollLayout).call(this, props));
 
+	    _this.state = { title: '', choices: '' };
 	    _this.handleTitleChange = _this.handleTitleChange.bind(_this);
 	    _this.handleChoicesChange = _this.handleChoicesChange.bind(_this);
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
 	    return _this;
 	  }
 
-	  _createClass(MainLayout, [{
-	    key: "handleTitleChange",
+	  _createClass(NewPollLayout, [{
+	    key: 'handleTitleChange',
 	    value: function handleTitleChange(e) {
 	      this.setState({ title: e.target.value });
 	    }
 	  }, {
-	    key: "handleChoicesChange",
+	    key: 'handleChoicesChange',
 	    value: function handleChoicesChange(e) {
 	      this.setState({ choices: e.target.value });
 	    }
 	  }, {
-	    key: "handleSubmit",
+	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
+	      var dispatch = this.props.dispatch;
+
 	      console.log(this.state);
-	      actions.addPoll(this.state.title, this.state.choices);
+	      dispatch((0, _actions.addPoll)(this.state.title, this.state.choices));
+	      this.setState({ title: '', choices: '' });
 	      e.preventDefault();
 	    }
 	  }, {
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	      return React.createElement(
-	        "div",
-	        { className: "newpoll-layout" },
+	        'div',
+	        { className: 'newpoll-layout' },
 	        React.createElement(
-	          "div",
-	          { className: "newpoll-header" },
+	          'div',
+	          { className: 'newpoll-header' },
 	          React.createElement(
-	            "h1",
+	            'h1',
 	            null,
-	            "Create New Poll"
+	            'Create New Poll'
 	          )
 	        ),
 	        React.createElement(
-	          "form",
+	          'form',
 	          null,
 	          React.createElement(
-	            "div",
-	            { className: "form-group" },
+	            'div',
+	            { className: 'form-group' },
 	            React.createElement(
-	              "label",
-	              { HTMLfor: "inputTitle" },
-	              "Title"
+	              'label',
+	              { HTMLfor: 'inputTitle' },
+	              'Title'
 	            ),
-	            React.createElement("input", { type: "text", onChange: this.handleTitleChange, className: "form-control", id: "inputTitle", placeholder: "New Title" })
+	            React.createElement('input', {
+	              type: 'text',
+	              onChange: this.handleTitleChange,
+	              className: 'form-control',
+	              id: 'inputTitle',
+	              placeholder: 'New Title',
+	              value: this.state.title
+	            })
 	          ),
 	          React.createElement(
-	            "div",
-	            { className: "form-group" },
+	            'div',
+	            { className: 'form-group' },
 	            React.createElement(
-	              "label",
-	              { HTMLfor: "inputChoices" },
-	              "Choices (comma-separated)"
+	              'label',
+	              { HTMLfor: 'inputChoices' },
+	              'Choices (comma-separated)'
 	            ),
-	            React.createElement("input", { type: "text", onChange: this.handleChoicesChange, className: "form-control", id: "inputChoice", placeholder: "Choice 1, Choice 2" })
+	            React.createElement('input', {
+	              type: 'text',
+	              onChange: this.handleChoicesChange,
+	              className: 'form-control',
+	              id: 'inputChoice',
+	              placeholder: 'Choice 1, Choice 2',
+	              value: this.state.choices
+	            })
 	          ),
 	          React.createElement(
-	            "button",
-	            { onClick: this.handleSubmit, className: "btn btn-default" },
-	            "Create"
+	            'button',
+	            { onClick: this.handleSubmit, className: 'btn btn-default' },
+	            'Create'
 	          )
 	        )
 	      );
 	    }
 	  }]);
 
-	  return MainLayout;
+	  return NewPollLayout;
 	}(React.Component);
 
-	module.exports = MainLayout;
+	NewPollLayout.propTypes = {
+	  dispatch: React.PropTypes.func.isRequired
+	};
+
+	function mapStateToProps(state) {
+	  return { polls: state.toJS().polls };
+	}
+
+	module.exports = (0, _reactRedux.connect)(mapStateToProps)(NewPollLayout);
+
+/***/ },
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _reactRouter = __webpack_require__(3);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(6);
+
+	var Header = function (_React$Component) {
+	    _inherits(Header, _React$Component);
+
+	    function Header() {
+	        _classCallCheck(this, Header);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Header).apply(this, arguments));
+	    }
+
+	    _createClass(Header, [{
+	        key: 'render',
+	        value: function render() {
+	            return React.createElement(
+	                'div',
+	                { className: 'app' },
+	                React.createElement(
+	                    'nav',
+	                    { className: 'navbar navbar-default' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'container-fluid' },
+	                        React.createElement(
+	                            'div',
+	                            { className: 'navbar-header' },
+	                            React.createElement(
+	                                'button',
+	                                { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#navbar-collapse-1', 'aria-expanded': 'false' },
+	                                React.createElement(
+	                                    'span',
+	                                    { className: 'sr-only' },
+	                                    'Toggle navigation'
+	                                ),
+	                                React.createElement('span', { className: 'icon-bar' }),
+	                                React.createElement('span', { className: 'icon-bar' }),
+	                                React.createElement('span', { className: 'icon-bar' })
+	                            ),
+	                            React.createElement(
+	                                'a',
+	                                { className: 'navbar-brand', href: '/' },
+	                                '1Vote'
+	                            )
+	                        ),
+	                        React.createElement(
+	                            'div',
+	                            { className: 'collapse navbar-collapse', id: 'navbar-collapse-1' },
+	                            React.createElement(
+	                                'ul',
+	                                { className: 'nav navbar-nav navbar-right' },
+	                                React.createElement(
+	                                    'li',
+	                                    null,
+	                                    React.createElement(
+	                                        _reactRouter.Link,
+	                                        { to: '/newpoll' },
+	                                        'New Poll'
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    'li',
+	                                    null,
+	                                    React.createElement(
+	                                        _reactRouter.Link,
+	                                        { to: '/' },
+	                                        'Home'
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    'li',
+	                                    null,
+	                                    React.createElement(
+	                                        'button',
+	                                        { type: 'button', className: 'btn btn-default navbar-btn' },
+	                                        'Sign in'
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                ),
+	                this.props.children
+	            );
+	        }
+	    }]);
+
+	    return Header;
+	}(React.Component);
+
+	module.exports = Header;
 
 /***/ }
 /******/ ]);

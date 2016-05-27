@@ -14,15 +14,8 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     addVote: dispatch
-//   };
-// };
-
 const VisiblePollLayout = connect(
   mapStateToProps
-  // mapDispatchToProps
 )(PollLayout);
 
 module.exports = VisiblePollLayout;

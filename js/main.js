@@ -8,10 +8,13 @@ import { createStore, applyMiddleware } from 'redux';
 import PollsReducer from './polls-reducer';
 import {Iterable} from 'immutable';
 
+// Top level Header
+import Header from './components/Header';
+
 // Layouts
 import VisibleMainLayout from './components/VisibleMainLayout';
 import VisiblePollLayout from './components/VisiblePollLayout';
-import NewpollLayout from './components/NewpollLayout';
+import NewPollLayout from './components/NewPollLayout';
 
 const stateTransformer = (state) => {
   if (Iterable.isIterable(state)) return state.toJS();
@@ -35,9 +38,11 @@ render(
     <Provider store={store}>
       <div>
         <Router history={browserHistory}>
-          <Route path="/" component={VisibleMainLayout} />
-          <Route path="poll/:pollId" component={VisiblePollLayout} />
-          <Route path="newpoll" component={NewpollLayout} />
+          <Route component={Header}>
+            <Route path="/" component={VisibleMainLayout} />
+            <Route path="poll/:pollId" component={VisiblePollLayout} />
+            <Route path="newpoll" component={NewPollLayout} />
+          </Route>
         </Router>
       </div>
     </Provider>,
