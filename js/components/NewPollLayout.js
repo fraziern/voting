@@ -1,6 +1,7 @@
 var React = require('react');
-import { addPoll } from '../actions';
+import { addPollAction } from '../actions';
 import { connect } from 'react-redux';
+import { Router, browserHistory } from 'react-router';
 
 // TODO input validation
 
@@ -24,8 +25,12 @@ class NewPollLayout extends React.Component {
   handleSubmit(e) {
     const { dispatch } = this.props;
     console.log(this.state);
-    dispatch(addPoll(this.state.title, this.state.choices));
+    dispatch(addPollAction(this.state.title, this.state.choices));
     this.setState({title: '', choices: ''});
+
+    // transition to root
+    browserHistory.push('/');
+
     e.preventDefault();
   }
 

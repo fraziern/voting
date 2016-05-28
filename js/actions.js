@@ -1,6 +1,9 @@
 import fetch from 'isomorphic-fetch';
 import $ from 'jquery';
 
+// TODO need to have a better response for successful async actions
+// TODO Passport integration with owners
+
 function requestPolls() {
   return {
     type: 'REQUEST_POLLS'
@@ -63,5 +66,44 @@ export function addPoll(title, choices) {
     type: 'ADD_POLL',
     title,
     choices
+  };
+}
+
+// async action creator for adding a poll -
+// updates store first, then updates mongodb
+export function addPollAction(title, choices) {
+  var owner = 'Anonymous';  // not using owners yet
+
+  // TODO BUG HERE - trying to add choices to database that haven't been
+  // broken out as an array! (it is done in the reducer but not here)
+
+  var arrayChoices = [];
+  choices.split(',').forEach( function (el) {
+    arrayChoices.push({
+      title: el.trim(),
+      votes: 0
+    });
+  });
+
+  return dispatch => {
+    dispatch(addPoll(title, choices));
+
+    return $.ajax({
+      method: 'POST',
+      url: '/api/addPoll',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        poll: {
+          title,
+          arrayChoices,
+          owner
+        }
+      })
+    }).done(function(result) {
+      console.log('saved: ' + JSON.stringify(result));
+    })
+      .fail(function(err) {
+        console.log(err);
+      });
   };
 }
