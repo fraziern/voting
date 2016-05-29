@@ -38,7 +38,7 @@ var PollController = function() {
     if (!req.body.pollID || !req.body.choiceTitle) {
       return res.status(403).json(req.body).end();
     }
-    
+
     var pollID = req.body.pollID;
     var choiceTitle = req.body.choiceTitle;
 
@@ -52,10 +52,23 @@ var PollController = function() {
 
   }
 
+  function deletePoll(req, res) {
+    if (!req.params.id) {
+      return res.status(403).json({id: id}).end();
+    }
+
+    var id = req.params.id;
+    Poll.findByIdAndRemove(req.params.id, function (err){
+      if (err) return res.status(500).send(err);
+      return res.json({removed: id});
+    });
+  }
+
   return {
     getPolls: getPolls,
     addPoll:  addPoll,
-    addVote:  addVote
+    addVote:  addVote,
+    deletePoll
   };
 }();
 

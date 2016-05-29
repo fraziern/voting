@@ -74,9 +74,6 @@ export function addPoll(title, choices) {
 export function addPollAction(title, choices) {
   var owner = 'Anonymous';  // not using owners yet
 
-  // TODO BUG HERE - trying to add choices to database that haven't been
-  // broken out as an array! (it is done in the reducer but not here)
-
   var arrayChoices = [];
   choices.split(',').forEach( function (el) {
     arrayChoices.push({
@@ -95,7 +92,7 @@ export function addPollAction(title, choices) {
       data: JSON.stringify({
         poll: {
           title,
-          arrayChoices,
+          choices: arrayChoices,
           owner
         }
       })

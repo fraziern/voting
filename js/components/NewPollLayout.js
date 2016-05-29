@@ -25,11 +25,14 @@ class NewPollLayout extends React.Component {
   handleSubmit(e) {
     const { dispatch } = this.props;
     console.log(this.state);
-    dispatch(addPollAction(this.state.title, this.state.choices));
-    this.setState({title: '', choices: ''});
+    dispatch(addPollAction(this.state.title, this.state.choices))
+      .done(() => {
+        this.setState({title: '', choices: ''});
+        $(".savestate").text("Saved!")
+    });
 
     // transition to root
-    browserHistory.push('/');
+    // browserHistory.push('/');
 
     e.preventDefault();
   }
@@ -53,7 +56,7 @@ class NewPollLayout extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label HTMLfor="inputChoices">Choices (comma-separated)</label>
+            <label HTMLfor="inputChoice">Choices (comma-separated)</label>
             <input
               type="text"
               onChange={this.handleChoicesChange}
@@ -64,6 +67,7 @@ class NewPollLayout extends React.Component {
             />
           </div>
           <button onClick={this.handleSubmit} className="btn btn-default">Create</button>
+          <p className="savestate text-muted"></p>
         </form>
       </div>
     );

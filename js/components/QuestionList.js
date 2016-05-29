@@ -6,7 +6,6 @@ class QuestionList extends React.Component {
   render() {
 
     const polls = this.props.polls;
-    console.log(polls);
 
     if (!polls) {
       return (

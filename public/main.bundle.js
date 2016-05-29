@@ -28596,7 +28596,6 @@
 	    value: function render() {
 
 	      var polls = this.props.polls;
-	      console.log(polls);
 
 	      if (!polls) {
 	        return React.createElement(
@@ -28788,9 +28787,6 @@
 	function addPollAction(title, choices) {
 	  var owner = 'Anonymous'; // not using owners yet
 
-	  // TODO BUG HERE - trying to add choices to database that haven't been
-	  // broken out as an array! (it is done in the reducer but not here)
-
 	  var arrayChoices = [];
 	  choices.split(',').forEach(function (el) {
 	    arrayChoices.push({
@@ -28809,7 +28805,7 @@
 	      data: JSON.stringify({
 	        poll: {
 	          title: title,
-	          arrayChoices: arrayChoices,
+	          choices: arrayChoices,
 	          owner: owner
 	        }
 	      })
@@ -31682,14 +31678,18 @@
 	  }, {
 	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
+	      var _this2 = this;
+
 	      var dispatch = this.props.dispatch;
 
 	      console.log(this.state);
-	      dispatch((0, _actions.addPollAction)(this.state.title, this.state.choices));
-	      this.setState({ title: '', choices: '' });
+	      dispatch((0, _actions.addPollAction)(this.state.title, this.state.choices)).done(function () {
+	        _this2.setState({ title: '', choices: '' });
+	        $(".savestate").text("Saved!");
+	      });
 
 	      // transition to root
-	      _reactRouter.browserHistory.push('/');
+	      // browserHistory.push('/');
 
 	      e.preventDefault();
 	    }
@@ -31733,7 +31733,7 @@
 	            { className: 'form-group' },
 	            React.createElement(
 	              'label',
-	              { HTMLfor: 'inputChoices' },
+	              { HTMLfor: 'inputChoice' },
 	              'Choices (comma-separated)'
 	            ),
 	            React.createElement('input', {
@@ -31749,7 +31749,8 @@
 	            'button',
 	            { onClick: this.handleSubmit, className: 'btn btn-default' },
 	            'Create'
-	          )
+	          ),
+	          React.createElement('p', { className: 'savestate text-muted' })
 	        )
 	      );
 	    }
