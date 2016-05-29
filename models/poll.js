@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var choiceSchema = new Schema({
   title: String,
-  votes: Number
+  votes: { type: Number, default: 0 }
 });
 
 var pollSchema = new Schema({
