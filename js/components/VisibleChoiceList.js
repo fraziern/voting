@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 var ChoiceList = require('./ChoiceList');
 
+// VisibleX layouts separate rendering components from connected components
+
 const mapStateToProps = (state) => {
   return {
     data: state

@@ -38,7 +38,7 @@ module.exports = function () {
 
     Poll.create([defaultPoll1, defaultPoll2], (error) => {
       if (!error) {
-        console.log('ready to go...');
+        console.log('db seeded...');
       }
     });
   });

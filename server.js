@@ -29,9 +29,6 @@ app.get('*', function(req, res){
   res.sendFile(__dirname+'/views/main.html');
 });
 
-// app.get('/poll',function(req,res){
-//   res.sendFile(__dirname+'/views/poll.html');
-// });
 
 /**
  * Error Handling

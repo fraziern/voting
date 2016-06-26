@@ -15,6 +15,7 @@ import Header from './components/Header';
 import VisibleMainLayout from './components/VisibleMainLayout';
 import VisiblePollLayout from './components/VisiblePollLayout';
 import NewPollLayout from './components/NewPollLayout';
+import LoginLayout from './components/LoginLayout';
 
 const stateTransformer = (state) => {
   if (Iterable.isIterable(state)) return state.toJS();
@@ -33,7 +34,6 @@ let store = createStore(
   )
 );
 
-
 render(
     <Provider store={store}>
       <div>
@@ -42,6 +42,7 @@ render(
             <Route path="/" component={VisibleMainLayout} />
             <Route path="poll/:pollId" component={VisiblePollLayout} />
             <Route path="newpoll" component={NewPollLayout} />
+            <Route path="login" component={LoginLayout} />
           </Route>
         </Router>
       </div>

@@ -21,9 +21,7 @@ class Header extends React.Component {
                   <ul className="nav navbar-nav navbar-right">
                       <li><Link to="/newpoll">New Poll</Link></li>
                       <li><Link to="/">Home</Link></li>
-                      <li>
-                          <button type="button" className="btn btn-default navbar-btn">Sign in</button>
-                      </li>
+                      <li><Link to="/login"><button type="button" className="btn btn-default navbar-btn">Sign in</button></Link></li>
                   </ul>
               </div>
           </div>
