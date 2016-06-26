@@ -16,6 +16,16 @@ Technologies used include:
   - Webpack with Babel and Sass loaders
   - Passport (forthcoming)
 
+## Building
+
+Make sure `mongod` is installed and running. In a separate console window:
+```
+> npm install
+> webpack
+> npm start
+```
+(The final version will require ENV variables as well.)
+
 ## API
 ### Get all polls:
 ```
