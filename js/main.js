@@ -1,3 +1,4 @@
+// this contains the main react router routes
 var React = require('react');
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';

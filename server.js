@@ -2,13 +2,21 @@ process.env.NODE_ENV = 'test';
 
 var express = require('express');
 var mongoose = require('mongoose');
-var poll = require('./routes/poll.routes');
+const passport = require('passport');
+const session = require('express-session');
+require('dotenv').load();
+require('./js/config/passport.js')(passport);
+
+// additional routes
+var api = require('./routes/api.routes');
+var auth = require('./routes/auth.routes');
+
 var dummyData = require('./dummyData');
 var bodyParser = require('body-parser');
 
 dummyData();
 
-// require('dotenv').config();
+require('dotenv').config();
 var app = express();
 
 mongoose.connect('mongodb://localhost/test', function (err) {
@@ -19,16 +27,25 @@ mongoose.connect('mongodb://localhost/test', function (err) {
   }
 });
 
+app.use(session({
+  secret: 'secretVoting',
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/api',  poll);
+app.use('/api',  api);
+app.use('/auth', auth);
 app.use(express.static(__dirname + '/public'));
 
 app.get('*', function(req, res){
   console.log('Request: [GET]', req.originalUrl);
   res.sendFile(__dirname+'/views/main.html');
 });
-
 
 /**
  * Error Handling

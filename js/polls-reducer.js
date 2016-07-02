@@ -1,4 +1,4 @@
-// var lil = require('lil-uuid');
+// this reducer modifies the store
 var Immutable = require('immutable');
 
 const defaultPolls = Immutable.fromJS({

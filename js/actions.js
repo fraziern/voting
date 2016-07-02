@@ -1,12 +1,20 @@
 import fetch from 'isomorphic-fetch';
 import $ from 'jquery';
 
+// this defines the actions available
+
 // TODO need to have a better response for successful async actions
 // TODO Passport integration with owners
 
 function requestPolls() {
   return {
     type: 'REQUEST_POLLS'
+  };
+}
+
+function asyncGetUser() {
+  return dispatch => {
+    return fetch('/auth/user', { credentials : 'same-origin' });
   };
 }
 
@@ -23,6 +31,12 @@ function fetchPolls() {
     return fetch('/api/getPolls')
       .then(response => response.json())
       .then(json => dispatch(receivePolls(json)));
+  };
+}
+
+export function getUser() {
+  return dispatch => {
+    return dispatch(asyncGetUser());
   };
 }
 

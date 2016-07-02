@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
 import QuestionList from './QuestionList';
-import { fetchPollsIfNeeded } from '../actions';
+import { fetchPollsIfNeeded, getUser } from '../actions';
 
 class MainLayout extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
+    dispatch(getUser());
     dispatch(fetchPollsIfNeeded());
   }
 
