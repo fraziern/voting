@@ -2,7 +2,8 @@
 var Immutable = require('immutable');
 
 const defaultPolls = Immutable.fromJS({
-  polls: []
+  polls: [],
+  authUser: null
 });
 
 function polls(state = defaultPolls, action) {
@@ -44,6 +45,15 @@ function polls(state = defaultPolls, action) {
       var newPollList = Immutable.fromJS(newPoll);
       console.log(newPollList);
       return state.set('polls', state.get('polls').push(newPollList));
+
+    // user actions
+    // TODO put these in a separate reducer
+    
+    case 'RECEIVE_USER':
+      return state.set('authUser', action.user);
+
+    case 'DROP_USER':
+      return state.set('authUser', null);
 
     default:
       return state;

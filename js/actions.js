@@ -6,15 +6,11 @@ import $ from 'jquery';
 // TODO need to have a better response for successful async actions
 // TODO Passport integration with owners
 
+// *** Private actinos ***
+
 function requestPolls() {
   return {
     type: 'REQUEST_POLLS'
-  };
-}
-
-function asyncGetUser() {
-  return dispatch => {
-    return fetch('/auth/user', { credentials : 'same-origin' });
   };
 }
 
@@ -34,9 +30,32 @@ function fetchPolls() {
   };
 }
 
+function receiveUser(json) {
+  return {
+    type: 'RECEIVE_USER',
+    user: json.github.displayName
+  };
+}
+
+function asyncGetUser() {
+  return dispatch => {
+    return fetch('/auth/user', { credentials : 'same-origin' })
+      .then(response => response.json())
+      .then(json => dispatch(receiveUser(json)));
+  };
+}
+
+// *** PUBLIC actions ***
+
 export function getUser() {
   return dispatch => {
     return dispatch(asyncGetUser());
+  };
+}
+
+export function logoutUser() {
+  return {
+    type: 'DROP_USER'
   };
 }
 

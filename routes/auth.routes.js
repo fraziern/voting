@@ -17,7 +17,8 @@ router.route('/github/callback')
 
 router.route('/user').get((req, res) => {
     console.info('user: ', req.user);
-  });  
+    return res.json(req.user);
+  });
 
 
 module.exports = router;

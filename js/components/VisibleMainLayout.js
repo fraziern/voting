@@ -6,7 +6,8 @@ var MainLayout = require('./MainLayout');
 const mapStateToProps = (state) => {
   return {
     polls: state.toJS().polls,
-    isFetching: state.toJS().isFetching
+    isFetching: state.toJS().isFetching,
+    authUser: state.toJS().authUser
   };
 };
 

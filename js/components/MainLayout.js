@@ -11,12 +11,14 @@ class MainLayout extends React.Component {
 
   render() {
     const polls = this.props.polls;
+    const user = this.props.authUser;
     return (
       <div className="main-layout">
         <div className="questions-header">
           <h1>Latest Polls</h1>
         </div>
         <QuestionList polls={polls} />
+        User: {user}
       </div>
     );
   }
@@ -24,7 +26,8 @@ class MainLayout extends React.Component {
 
 MainLayout.propTypes = {
   polls: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  authUser: PropTypes.string.isRequired
 };
 
 module.exports = MainLayout;
