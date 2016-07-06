@@ -35,7 +35,7 @@ class Header extends React.Component {
                   <ul className="nav navbar-nav navbar-right">
                       <li><Link to="/newpoll">New Poll</Link></li>
                       <li><Link to="/">Home</Link></li>
-                      {user && <li><Link to="#">{user}</Link></li>}
+                      {user && <li><Link to="/mypolls">{user}</Link></li>}
                       {loginButton}
                   </ul>
               </div>

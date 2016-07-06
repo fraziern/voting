@@ -17,6 +17,7 @@ import VisibleMainLayout from './components/VisibleMainLayout';
 import VisiblePollLayout from './components/VisiblePollLayout';
 import NewPollLayout from './components/NewPollLayout';
 import LoginLayout from './components/LoginLayout';
+import VisibleMyPollsLayout from './components/VisibleMyPollsLayout';
 
 const stateTransformer = (state) => {
   if (Iterable.isIterable(state)) return state.toJS();
@@ -44,6 +45,7 @@ render(
             <Route path="poll/:pollId" component={VisiblePollLayout} />
             <Route path="newpoll" component={NewPollLayout} />
             <Route path="login" component={LoginLayout} />
+            <Route path="mypolls" component={VisibleMyPollsLayout} />
           </Route>
         </Router>
       </div>
