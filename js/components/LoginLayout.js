@@ -8,10 +8,10 @@ class LoginLayout extends React.Component {
   render() {
 
     return (
-      <div className="login-layout">
+      <div className="login-layout text-center">
         <a href="/auth/github">
           <button type="button" className="btn btn-default">
-              <img src="/public/img/gh-mark-32px.png" alt="github logo" />
+              <img src="img/gh-mark-32px.png" alt="github logo" />
               <p>LOGIN WITH GITHUB</p>
           </button>
         </a>

@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import $ from 'jquery';
+import { browserHistory } from 'react-router';
 
 // this defines the actions available
 
@@ -31,9 +32,11 @@ function fetchPolls() {
 }
 
 function receiveUser(json) {
+  console.log('receiveUser json:' + JSON.stringify(json));
+  let user = (json.isAuthenticated) ? json.github.displayName : null;
   return {
     type: 'RECEIVE_USER',
-    user: json.github.displayName
+    user: user
   };
 }
 
@@ -45,6 +48,23 @@ function asyncGetUser() {
   };
 }
 
+function addPoll(title, choices, owner) {
+  return {
+    type: 'ADD_POLL',
+    title,
+    choices,
+    owner
+  };
+}
+
+function addVote(pollID, choiceTitle) {
+  return {
+    type: 'ADD_VOTE',
+    pollID,
+    choiceTitle
+  };
+}
+
 // *** PUBLIC actions ***
 
 export function getUser() {
@@ -53,7 +73,9 @@ export function getUser() {
   };
 }
 
+// TODO this should probably be async, use thunks
 export function logoutUser() {
+  fetch('/auth/logout');
   return {
     type: 'DROP_USER'
   };
@@ -63,14 +85,6 @@ export function logoutUser() {
 export function fetchPollsIfNeeded() {
   return dispatch => {
     return dispatch(fetchPolls());
-  };
-}
-
-function addVote(pollID, choiceTitle) {
-  return {
-    type: 'ADD_VOTE',
-    pollID,
-    choiceTitle
   };
 }
 
@@ -94,18 +108,10 @@ export function addVoteAction(pollID, choiceTitle) {
   };
 }
 
-export function addPoll(title, choices) {
-  return {
-    type: 'ADD_POLL',
-    title,
-    choices
-  };
-}
-
 // async action creator for adding a poll -
 // updates store first, then updates mongodb
-export function addPollAction(title, choices) {
-  var owner = 'Anonymous';  // not using owners yet
+export function addPollAction(title, choices, owner) {
+  owner = owner || 'anonymous';
 
   var arrayChoices = [];
   choices.split(',').forEach( function (el) {
@@ -116,7 +122,7 @@ export function addPollAction(title, choices) {
   });
 
   return dispatch => {
-    dispatch(addPoll(title, choices));
+    dispatch(addPoll(title, choices, owner));
 
     return $.ajax({
       method: 'POST',

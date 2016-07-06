@@ -10,7 +10,7 @@ import PollsReducer from './polls-reducer';
 import {Iterable} from 'immutable';
 
 // Top level Header
-import Header from './components/Header';
+import VisibleHeader from './components/VisibleHeader';
 
 // Layouts
 import VisibleMainLayout from './components/VisibleMainLayout';
@@ -39,7 +39,7 @@ render(
     <Provider store={store}>
       <div>
         <Router history={browserHistory}>
-          <Route component={Header}>
+          <Route component={VisibleHeader}>
             <Route path="/" component={VisibleMainLayout} />
             <Route path="poll/:pollId" component={VisiblePollLayout} />
             <Route path="newpoll" component={NewPollLayout} />

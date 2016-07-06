@@ -20,7 +20,7 @@ class QuestionList extends React.Component {
           el.choices.forEach(function (elm) {
             voteTotal += elm.votes;
           });
-          return (<Question key={el.id} id={el.id} title={el.title} votes={voteTotal} />);
+          return (<Question key={el.id} id={el.id} title={el.title} votes={voteTotal} owner={el.owner} />);
         })}
       </ul>
     );
@@ -28,7 +28,7 @@ class QuestionList extends React.Component {
 }
 
 QuestionList.propTypes = {
-  polls: React.PropTypes.object
+  polls: React.PropTypes.array
 };
 
 module.exports = QuestionList;

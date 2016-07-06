@@ -1,8 +1,22 @@
 var React = require('react');
 import { Link } from 'react-router';
+import { getUser } from '../actions';
+
 
 class Header extends React.Component {
+  componentDidMount() {
+    this.props.dispatch(getUser());
+  }
+
   render() {
+    const user = this.props.authUser;
+    var loginButton;
+    if (!user) {
+      loginButton = <li><Link to="/login"><button type="button" className="btn btn-default navbar-btn">Sign in</button></Link></li>;
+    } else {
+      loginButton = <li><Link to="#"><button onClick={this.props.handleLogoutClick.bind(this)} type="button" className="btn btn-default navbar-btn">Sign out</button></Link></li>;
+    }
+
     return (
       <div className="app">
       <nav className="navbar navbar-default">
@@ -21,7 +35,8 @@ class Header extends React.Component {
                   <ul className="nav navbar-nav navbar-right">
                       <li><Link to="/newpoll">New Poll</Link></li>
                       <li><Link to="/">Home</Link></li>
-                      <li><Link to="/login"><button type="button" className="btn btn-default navbar-btn">Sign in</button></Link></li>
+                      {user && <li><Link to="#">{user}</Link></li>}
+                      {loginButton}
                   </ul>
               </div>
           </div>

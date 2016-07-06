@@ -35,7 +35,7 @@ function polls(state = defaultPolls, action) {
     case 'ADD_POLL':
       // action.title: Title
       // action.choices: comma separated choices
-      var newPoll = {title: action.title, owner: '', choices: []};
+      var newPoll = {title: action.title, owner: action.owner, choices: []};
       action.choices.split(',').forEach( function (el) {
         newPoll.choices.push({
           title: el.trim(),
@@ -48,7 +48,7 @@ function polls(state = defaultPolls, action) {
 
     // user actions
     // TODO put these in a separate reducer
-    
+
     case 'RECEIVE_USER':
       return state.set('authUser', action.user);
 

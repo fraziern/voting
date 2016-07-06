@@ -2,8 +2,10 @@ var React = require('react');
 import { addPollAction } from '../actions';
 import { connect } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
+import $ from 'jquery';
 
 // TODO input validation
+// TODO create a VisibleNewPollLayout
 
 class NewPollLayout extends React.Component {
   constructor(props) {
@@ -23,13 +25,13 @@ class NewPollLayout extends React.Component {
   }
 
   handleSubmit(e) {
-    const { dispatch } = this.props;
+    const { dispatch, authUser } = this.props;
     console.log(this.state);
-    dispatch(addPollAction(this.state.title, this.state.choices))
+    dispatch(addPollAction(this.state.title, this.state.choices, authUser))
       .done(() => {
         this.setState({title: '', choices: ''});
-        $(".savestate").text("Saved!")
-    });
+        $('.savestate').text('Saved!');
+      });
 
     // transition to root
     // browserHistory.push('/');
@@ -56,7 +58,7 @@ class NewPollLayout extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label HTMLfor="inputChoice">Choices (comma-separated)</label>
+            <label htmlFor="inputChoice">Choices (comma-separated)</label>
             <input
               type="text"
               onChange={this.handleChoicesChange}
@@ -66,8 +68,8 @@ class NewPollLayout extends React.Component {
               value={this.state.choices}
             />
           </div>
+          <p className="savestate text-muted">Owner: {this.props.authUser}</p>
           <button onClick={this.handleSubmit} className="btn btn-default">Create</button>
-          <p className="savestate text-muted"></p>
         </form>
       </div>
     );
@@ -79,7 +81,10 @@ NewPollLayout.propTypes = {
 };
 
 function mapStateToProps(state) {
-  return { polls: state.toJS().polls };
+  return {
+    polls: state.toJS().polls,
+    authUser: state.toJS().authUser
+  };
 }
 
 module.exports = connect(mapStateToProps)(NewPollLayout);
