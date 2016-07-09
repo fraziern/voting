@@ -14,6 +14,9 @@ router.route('/addPoll').post(PollController.addPoll);
 // Add a vote to an existing poll and choice
 router.route('/addVote').post(PollController.addVote);
 
+// Add a choice to existing poll
+router.route('/addChoice/:id').put(PollController.addChoice);
+
 // Delete a poll
 router.route('/deletePoll/:id').delete(PollController.deletePoll);
 

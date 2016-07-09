@@ -31,9 +31,14 @@ router.route('/user').get((req, res) => {
   return res.json(user);
 });
 
+// TODO: signout button then refresh home = signs you back in again
+
 router.route('/logout').get(function(req, res){
-  req.logout();
-  res.redirect('/');
+  req.session.destroy(function() {
+    console.log('Cookies: ' + req.cookies);
+    res.clearCookie('connect.sid');
+    res.redirect('/');
+  });
 });
 
 module.exports = router;

@@ -1,5 +1,4 @@
 var Poll = require('../models/poll');
-// var lil = require('lil-uuid');
 
 var PollController = function() {
   function getPolls(req, res) {
@@ -52,15 +51,33 @@ var PollController = function() {
 
   }
 
-  function deletePoll(req, res) {
-    if (!req.params.id) {
-      return res.status(403).json({id: id}).end();
+  function addChoice(req, res) {
+    if (!req.body.choice || !req.params.id) {
+      return res.status(403).json(req.body).end();
     }
 
-    var id = req.params.id;
-    Poll.findByIdAndRemove(req.params.id, function (err){
+    var pollID = req.params.id;
+    var query = {_id: pollID};
+    Poll.findByIdAndUpdate(
+        pollID,
+        {$push: {'choices': {'title': req.body.choice.title, 'votes': 0}}},
+        {safe: true, new : true},
+        function(err, saved) {
+          if (err) return res.status(500).send(err);
+          return res.json({poll: saved});
+        }
+    );
+  }
+
+  function deletePoll(req, res) {
+    if (!req.params.id) {
+      return res.status(403).json({id: pollID}).end();
+    }
+
+    var pollID = req.params.id;
+    Poll.findByIdAndRemove(pollID, function (err){
       if (err) return res.status(500).send(err);
-      return res.json({removed: id});
+      return res.json({removed: pollID});
     });
   }
 
@@ -68,6 +85,7 @@ var PollController = function() {
     getPolls: getPolls,
     addPoll:  addPoll,
     addVote:  addVote,
+    addChoice: addChoice,
     deletePoll
   };
 }();
