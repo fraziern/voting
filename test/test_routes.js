@@ -32,11 +32,11 @@ describe('Routing', function() {
   describe('Edit poll', function() {
     it('should return status 200 when trying to edit a valid poll', function(done) {
       var updatedPollBody = {
-        'choice': {
+        'choices': {
           'title': 'blah'
         }};
       request(url)
-        .put('/api/addChoice/' + newId)
+        .post('/api/addChoice/' + newId)
         .set('Content-Type', 'application/json')
         .send(JSON.stringify(updatedPollBody))
         .expect(200)

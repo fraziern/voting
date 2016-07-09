@@ -34,12 +34,12 @@ var PollController = function() {
   }
 
   function addVote(req, res) {
-    if (!req.body.pollID || !req.body.choiceTitle) {
+    if (!req.params.id || !req.body.choices) {
       return res.status(403).json(req.body).end();
     }
 
-    var pollID = req.body.pollID;
-    var choiceTitle = req.body.choiceTitle;
+    var pollID = req.params.id;
+    var choiceTitle = req.body.choices.title;
 
     var query = {_id: pollID, 'choices.title': choiceTitle};
     var update = { $inc: {'choices.$.votes': 1}};
@@ -52,7 +52,7 @@ var PollController = function() {
   }
 
   function addChoice(req, res) {
-    if (!req.body.choice || !req.params.id) {
+    if (!req.body.choices || !req.params.id) {
       return res.status(403).json(req.body).end();
     }
 
@@ -60,7 +60,7 @@ var PollController = function() {
     var query = {_id: pollID};
     Poll.findByIdAndUpdate(
         pollID,
-        {$push: {'choices': {'title': req.body.choice.title, 'votes': 0}}},
+        {$push: {'choices': {'title': req.body.choices.title, 'votes': 0}}},
         {safe: true, new : true},
         function(err, saved) {
           if (err) return res.status(500).send(err);

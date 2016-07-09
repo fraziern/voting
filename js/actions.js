@@ -6,6 +6,7 @@ import { browserHistory } from 'react-router';
 
 // TODO need to have a better response for successful async actions
 // TODO Passport integration with owners
+// TODO pick jquery or fetch, don't need both
 
 // *** Private actinos ***
 
@@ -94,12 +95,16 @@ export function addVoteAction(pollID, choiceTitle) {
   return dispatch => {
     dispatch(addVote(pollID, choiceTitle));
 
-    return $.post('/api/addVote',
-      {
-        pollID,
-        choiceTitle
-      }
-    ).done(function(result) {
+    return $.ajax({
+      method: 'POST',
+      url: '/api/addVote/' + pollID,
+      contentType: 'application/json',
+      data: JSON.stringify({
+        choices: {
+          title: choiceTitle
+        }
+      })
+    }).done(function(result) {
       console.log('saved: ' + JSON.stringify(result));
     })
       .fail(function(err) {
