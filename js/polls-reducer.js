@@ -25,6 +25,17 @@ function polls(state = defaultPolls, action) {
       return state.updateIn(['polls', pollIndex, 'choices', choiceIndex, 'votes'], 1,
         v => v + 1);
 
+    case 'ADD_CHOICE':
+      // action.id: id of poll to update
+      // action.title: title of choice to update
+      pollIndex = 0;
+      pollIndex = state.get('polls').findKey(function(el) {
+        return (el.get('id') === action.pollID);
+      });
+      var newChoice = Immutable.fromJS({title: action.choiceTitle, votes: 0});
+
+      return state.updateIn(['polls', pollIndex, 'choices'], choices => choices.push(newChoice));
+
     case 'REQUEST_POLLS':
       return state.set('isFetching', true);
 

@@ -66,6 +66,14 @@ function addVote(pollID, choiceTitle) {
   };
 }
 
+function addChoice(pollID, choiceTitle) {
+  return {
+    type: 'ADD_CHOICE',
+    pollID,
+    choiceTitle
+  };
+}
+
 // *** PUBLIC actions ***
 
 export function getUser() {
@@ -98,6 +106,30 @@ export function addVoteAction(pollID, choiceTitle) {
     return $.ajax({
       method: 'POST',
       url: '/api/addVote/' + pollID,
+      contentType: 'application/json',
+      data: JSON.stringify({
+        choices: {
+          title: choiceTitle
+        }
+      })
+    }).done(function(result) {
+      console.log('saved: ' + JSON.stringify(result));
+    })
+      .fail(function(err) {
+        console.log(err);
+      });
+  };
+}
+
+// async action creator for adding a choice -
+// updates the store first, then updates mongodb
+export function addChoiceAction(pollID, choiceTitle) {
+  return dispatch => {
+    dispatch(addChoice(pollID, choiceTitle));
+
+    return $.ajax({
+      method: 'POST',
+      url: '/api/addChoice/' + pollID,
       contentType: 'application/json',
       data: JSON.stringify({
         choices: {
