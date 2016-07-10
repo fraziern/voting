@@ -1,16 +1,15 @@
 import React, { PropTypes } from 'react';
-import { addVoteAction } from '../actions';
 
 class Choice extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+
   }
 
   handleClick(e) {
     e.preventDefault();
-    const { dispatch } = this.props;
-    dispatch(addVoteAction(this.props.id, this.props.title));
+    this.props.handleAddVote(this.props.title);
   }
 
   render() {
@@ -21,7 +20,7 @@ class Choice extends React.Component {
 }
 
 Choice.PropTypes = {
-  addVote: PropTypes.func.isRequired,
+  handleAddVote: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   choice: PropTypes.object.isRequired
 };

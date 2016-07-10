@@ -23,3 +23,9 @@
   font-style: italic;
   font-size: 8pt;
 }
+
+.hidden {
+  height: 0px;
+  width: 0px;
+  opacity: 0;
+}
