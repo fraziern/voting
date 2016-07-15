@@ -74,6 +74,13 @@ function addChoice(pollID, choiceTitle) {
   };
 }
 
+function deletePoll(pollID) {
+  return {
+    type: 'DELETE_POLL',
+    pollID
+  };
+}
+
 // *** PUBLIC actions ***
 
 export function getUser() {
@@ -174,6 +181,25 @@ export function addPollAction(title, choices, owner) {
       })
     }).done(function(result) {
       console.log('saved: ' + JSON.stringify(result));
+    })
+      .fail(function(err) {
+        console.log(err);
+      });
+  };
+}
+
+// async action creator for deleting a poll -
+// updates store first, then updates mongodb
+export function deletePollAction(pollID) {
+
+  return dispatch => {
+    dispatch(deletePoll(pollID));
+
+    return $.ajax({
+      method: 'DELETE',
+      url: '/api/deletePoll/' + pollID
+    }).done(function(result) {
+      console.log(JSON.stringify(result));
     })
       .fail(function(err) {
         console.log(err);

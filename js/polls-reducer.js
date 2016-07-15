@@ -9,8 +9,7 @@ const defaultPolls = Immutable.fromJS({
 function polls(state = defaultPolls, action) {
   switch (action.type) {
     case 'ADD_VOTE':
-      // action.id: id of poll to update
-      // action.title: title of choice to update
+
       var pollIndex = 0;
       var choiceIndex = 0;
 
@@ -26,8 +25,7 @@ function polls(state = defaultPolls, action) {
         v => v + 1);
 
     case 'ADD_CHOICE':
-      // action.id: id of poll to update
-      // action.title: title of choice to update
+
       pollIndex = 0;
       pollIndex = state.get('polls').findKey(function(el) {
         return (el.get('id') === action.pollID);
@@ -54,8 +52,14 @@ function polls(state = defaultPolls, action) {
         });
       });
       var newPollList = Immutable.fromJS(newPoll);
-      console.log(newPollList);
       return state.set('polls', state.get('polls').push(newPollList));
+
+    case 'DELETE_POLL':
+
+      return state.set('polls', state.get('polls').filter(function (el) {
+        return (el.get('id') != action.pollID);
+      }));
+
 
     // user actions
     // TODO put these in a separate reducer

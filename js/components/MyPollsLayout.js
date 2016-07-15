@@ -1,12 +1,7 @@
 import React, { PropTypes } from 'react';
-import QuestionList from './QuestionList';
-// import { fetchPollsIfNeeded, getUser } from '../actions';
+import QuestionListWithDelete from './QuestionListWithDelete';
 
 class MyPollsLayout extends React.Component {
-  // componentDidMount() {
-  //   const { dispatch } = this.props;
-  //   dispatch(fetchPollsIfNeeded());
-  // }
 
   render() {
     const polls = this.props.polls;
@@ -15,15 +10,15 @@ class MyPollsLayout extends React.Component {
         <div className="questions-header">
           <h1>My Polls</h1>
         </div>
-        <QuestionList polls={polls} />
+        <QuestionListWithDelete polls={polls} dispatch={this.props.dispatch} />
       </div>
     );
   }
 }
 
 MyPollsLayout.propTypes = {
-  polls: PropTypes.array.isRequired
-  // dispatch: PropTypes.func.isRequired,
+  polls: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
 
 module.exports = MyPollsLayout;

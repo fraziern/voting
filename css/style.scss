@@ -29,3 +29,13 @@
   width: 0px;
   opacity: 0;
 }
+
+.question-with-delete {
+  display: flex;
+  question-text {
+    flex: 1;
+  }
+  question-delete {
+    flex: 0;
+  }
+}
