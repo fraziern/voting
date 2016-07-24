@@ -14,7 +14,7 @@ class QuestionWithDelete extends React.Component {
 
   render() {
     return (
-      <li><Link to={`/poll/${this.props.id}`} className="list-group-item question-with-delete">
+      <li className="list-group-item question-with-delete"><Link to={`/poll/${this.props.id}`}>
         <div className="question-text">
           <div className="question-title">{this.props.title}</div>
           <div className="question-votes">{this.props.votes} Votes</div>

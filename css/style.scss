@@ -32,10 +32,5 @@
 
 .question-with-delete {
   display: flex;
-  question-text {
-    flex: 1;
-  }
-  question-delete {
-    flex: 0;
-  }
+  justify-content: space-between;
 }
