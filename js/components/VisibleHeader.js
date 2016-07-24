@@ -1,22 +1,27 @@
 import { connect } from 'react-redux';
 var Header = require('./Header');
-import { logoutUser } from '../actions';
+import { logoutUser, getUser } from '../actions';
 
 // VisibleX layouts separate rendering components from connected components
 
-function handleLogoutClick(e) {
-  e.preventDefault();
-  const { dispatch } = this.props;
-  dispatch(logoutUser());
-}
-
 const mapStateToProps = (state) => {
   return {
-    authUser: state.toJS().authUser,
-    handleLogoutClick: handleLogoutClick
+    authUser: state.toJS().authUser
   };
 };
 
-const VisibleHeader = connect(mapStateToProps)(Header);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleLogoutClick: (e) => {
+      e.preventDefault();
+      dispatch(logoutUser());
+    },
+    getUser: () => {
+      dispatch(getUser());
+    }
+  };
+};
+
+const VisibleHeader = connect(mapStateToProps, mapDispatchToProps)(Header);
 
 module.exports = VisibleHeader;

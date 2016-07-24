@@ -1,11 +1,18 @@
 var React = require('react');
 import { Link } from 'react-router';
-import { getUser } from '../actions';
-
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onLogoutClick = this.onLogoutClick.bind(this);
+  }
+
   componentDidMount() {
-    this.props.dispatch(getUser());
+    this.props.getUser();
+  }
+
+  onLogoutClick(e) {
+    this.props.handleLogoutClick(e);
   }
 
   render() {
@@ -14,7 +21,7 @@ class Header extends React.Component {
     if (!user) {
       loginButton = <li><Link to="/login"><button type="button" className="btn btn-default navbar-btn">Sign in</button></Link></li>;
     } else {
-      loginButton = <li><Link to="#"><button onClick={this.props.handleLogoutClick.bind(this)} type="button" className="btn btn-default navbar-btn">Sign out</button></Link></li>;
+      loginButton = <li><Link to="#"><button onClick={this.onLogoutClick} type="button" className="btn btn-default navbar-btn">Sign out</button></Link></li>;
     }
 
     return (
