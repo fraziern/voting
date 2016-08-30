@@ -1,7 +1,10 @@
 {
-    'plugins': [
-      'react'
-    ],
+    'parserOptions': {
+      'sourceType': 'module',
+      'ecmaFeatures': {
+        'jsx': true
+      }
+    },
     'rules': {
         'indent': [
             1,
@@ -21,6 +24,9 @@
             'always'
         ],
         'no-console' : [
+            0
+        ],
+        'no-unused-vars' : [
             0
         ],
         'comma-dangle' : [

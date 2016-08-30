@@ -2,7 +2,28 @@ var React = require('react');
 import { Link } from 'react-router';
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onLogoutClick = this.onLogoutClick.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.getUser();
+  }
+
+  onLogoutClick(e) {
+    this.props.handleLogoutClick(e);
+  }
+
   render() {
+    const user = this.props.authUser;
+    var loginButton;
+    if (!user) {
+      loginButton = <li><Link to="/login"><button type="button" className="btn btn-default navbar-btn">Sign in</button></Link></li>;
+    } else {
+      loginButton = <li><Link to="#"><button onClick={this.onLogoutClick} type="button" className="btn btn-default navbar-btn">Sign out</button></Link></li>;
+    }
+
     return (
       <div className="app">
       <nav className="navbar navbar-default">
@@ -21,7 +42,8 @@ class Header extends React.Component {
                   <ul className="nav navbar-nav navbar-right">
                       <li><Link to="/newpoll">New Poll</Link></li>
                       <li><Link to="/">Home</Link></li>
-                      <li><Link to="/login"><button type="button" className="btn btn-default navbar-btn">Sign in</button></Link></li>
+                      {user && <li><Link to="/mypolls">{user}</Link></li>}
+                      {loginButton}
                   </ul>
               </div>
           </div>

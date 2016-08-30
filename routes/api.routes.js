@@ -1,4 +1,5 @@
 var PollController = require('../controllers/poll.controller');
+
 var express = require('express');
 var Router = express.Router;
 
@@ -11,7 +12,10 @@ router.route('/getPolls').get(PollController.getPolls);
 router.route('/addPoll').post(PollController.addPoll);
 
 // Add a vote to an existing poll and choice
-router.route('/addVote').post(PollController.addVote);
+router.route('/addVote/:id').post(PollController.addVote);
+
+// Add a choice to existing poll
+router.route('/addChoice/:id').post(PollController.addChoice);
 
 // Delete a poll
 router.route('/deletePoll/:id').delete(PollController.deletePoll);

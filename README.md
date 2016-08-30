@@ -37,6 +37,7 @@ GET /api/getPolls
 POST /api/addPoll
 ```
 Body should include the following JSON format:
+```
 {
     "poll":
     {
@@ -49,16 +50,36 @@ Body should include the following JSON format:
         "owner": "Brap"
     }
 }
+```
 
 ### Add a single vote to a poll's choice:
 ```
-POST /api/addVote
+POST /api/addVote/[pollID]
 ```
 Body should include the following JSON format:
+```
 {
-        "pollID": "5738828058fd5b023a0757fe",
-        "choiceTitle": "Choice 3"
+        "choices":
+        {
+          "title": "Wut"
+          }
 }
+```
+
+### Add a choice to an existing poll:
+```
+POST /api/addChoice/[pollID]
+```
+Body should include the following JSON format:
+```
+{
+        "choices":
+        {
+          "title": "Jawn"
+          }
+}
+```
+
 ### Delete a poll:
 ```
 DELETE /api/deletePoll/[pollID]

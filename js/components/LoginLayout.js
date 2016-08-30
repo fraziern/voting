@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
-// var ChoicePanel = require('./ChoicePanel');
-// var ReactPieChart = require('./ReactPieChart');
+import { Link } from 'react-router';
 
 require('../../css/style.scss');
 
@@ -9,8 +8,13 @@ class LoginLayout extends React.Component {
   render() {
 
     return (
-      <div className="login-layout">
-        This is the login screen.
+      <div className="login-layout text-center">
+        <a href="/auth/github">
+          <button type="button" className="btn btn-default">
+              <img src="img/gh-mark-32px.png" alt="github logo" />
+              <p>LOGIN WITH GITHUB</p>
+          </button>
+        </a>
       </div>
     );
   }

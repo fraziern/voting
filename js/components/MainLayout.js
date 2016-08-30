@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import QuestionList from './QuestionList';
-import { fetchPollsIfNeeded } from '../actions';
+import { fetchPollsIfNeeded, getUser } from '../actions';
 
 class MainLayout extends React.Component {
   componentDidMount() {
@@ -22,8 +22,8 @@ class MainLayout extends React.Component {
 }
 
 MainLayout.propTypes = {
-  polls: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  polls: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 module.exports = MainLayout;

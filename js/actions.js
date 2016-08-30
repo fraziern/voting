@@ -1,8 +1,14 @@
 import fetch from 'isomorphic-fetch';
 import $ from 'jquery';
+import { browserHistory } from 'react-router';
+
+// this defines the actions available
 
 // TODO need to have a better response for successful async actions
 // TODO Passport integration with owners
+// TODO pick jquery or fetch, don't need both
+
+// *** Private actinos ***
 
 function requestPolls() {
   return {
@@ -26,10 +32,29 @@ function fetchPolls() {
   };
 }
 
-// async action creator for getting all polls
-export function fetchPollsIfNeeded() {
+function receiveUser(json) {
+  console.log('receiveUser json:' + JSON.stringify(json));
+  let user = (json.isAuthenticated) ? json.github.displayName : null;
+  return {
+    type: 'RECEIVE_USER',
+    user: user
+  };
+}
+
+function asyncGetUser() {
   return dispatch => {
-    return dispatch(fetchPolls());
+    return fetch('/auth/user', { credentials : 'same-origin' })
+      .then(response => response.json())
+      .then(json => dispatch(receiveUser(json)));
+  };
+}
+
+function addPoll(title, choices, owner) {
+  return {
+    type: 'ADD_POLL',
+    title,
+    choices,
+    owner
   };
 }
 
@@ -41,18 +66,60 @@ function addVote(pollID, choiceTitle) {
   };
 }
 
+function addChoice(pollID, choiceTitle) {
+  return {
+    type: 'ADD_CHOICE',
+    pollID,
+    choiceTitle
+  };
+}
+
+function deletePoll(pollID) {
+  return {
+    type: 'DELETE_POLL',
+    pollID
+  };
+}
+
+// *** PUBLIC actions ***
+
+export function getUser() {
+  return dispatch => {
+    return dispatch(asyncGetUser());
+  };
+}
+
+// TODO this should probably be async, use thunks
+export function logoutUser() {
+  fetch('/auth/logout');
+  return {
+    type: 'DROP_USER'
+  };
+}
+
+// async action creator for getting all polls
+export function fetchPollsIfNeeded() {
+  return dispatch => {
+    return dispatch(fetchPolls());
+  };
+}
+
 // async action creator for adding a vote -
 // updates the store first, then updates mongodb
 export function addVoteAction(pollID, choiceTitle) {
   return dispatch => {
     dispatch(addVote(pollID, choiceTitle));
 
-    return $.post('/api/addVote',
-      {
-        pollID,
-        choiceTitle
-      }
-    ).done(function(result) {
+    return $.ajax({
+      method: 'POST',
+      url: '/api/addVote/' + pollID,
+      contentType: 'application/json',
+      data: JSON.stringify({
+        choices: {
+          title: choiceTitle
+        }
+      })
+    }).done(function(result) {
       console.log('saved: ' + JSON.stringify(result));
     })
       .fail(function(err) {
@@ -61,18 +128,34 @@ export function addVoteAction(pollID, choiceTitle) {
   };
 }
 
-export function addPoll(title, choices) {
-  return {
-    type: 'ADD_POLL',
-    title,
-    choices
+// async action creator for adding a choice -
+// updates the store first, then updates mongodb
+export function addChoiceAction(pollID, choiceTitle) {
+  return dispatch => {
+    dispatch(addChoice(pollID, choiceTitle));
+
+    return $.ajax({
+      method: 'POST',
+      url: '/api/addChoice/' + pollID,
+      contentType: 'application/json',
+      data: JSON.stringify({
+        choices: {
+          title: choiceTitle
+        }
+      })
+    }).done(function(result) {
+      console.log('saved: ' + JSON.stringify(result));
+    })
+      .fail(function(err) {
+        console.log(err);
+      });
   };
 }
 
 // async action creator for adding a poll -
 // updates store first, then updates mongodb
-export function addPollAction(title, choices) {
-  var owner = 'Anonymous';  // not using owners yet
+export function addPollAction(title, choices, owner) {
+  owner = owner || 'anonymous';
 
   var arrayChoices = [];
   choices.split(',').forEach( function (el) {
@@ -83,7 +166,7 @@ export function addPollAction(title, choices) {
   });
 
   return dispatch => {
-    dispatch(addPoll(title, choices));
+    dispatch(addPoll(title, choices, owner));
 
     return $.ajax({
       method: 'POST',
@@ -98,6 +181,25 @@ export function addPollAction(title, choices) {
       })
     }).done(function(result) {
       console.log('saved: ' + JSON.stringify(result));
+    })
+      .fail(function(err) {
+        console.log(err);
+      });
+  };
+}
+
+// async action creator for deleting a poll -
+// updates store first, then updates mongodb
+export function deletePollAction(pollID) {
+
+  return dispatch => {
+    dispatch(deletePoll(pollID));
+
+    return $.ajax({
+      method: 'DELETE',
+      url: '/api/deletePoll/' + pollID
+    }).done(function(result) {
+      console.log(JSON.stringify(result));
     })
       .fail(function(err) {
         console.log(err);

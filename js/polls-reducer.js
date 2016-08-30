@@ -1,15 +1,15 @@
-// var lil = require('lil-uuid');
+// this reducer modifies the store
 var Immutable = require('immutable');
 
 const defaultPolls = Immutable.fromJS({
-  polls: []
+  polls: [],
+  authUser: null
 });
 
 function polls(state = defaultPolls, action) {
   switch (action.type) {
     case 'ADD_VOTE':
-      // action.id: id of poll to update
-      // action.title: title of choice to update
+
       var pollIndex = 0;
       var choiceIndex = 0;
 
@@ -24,6 +24,16 @@ function polls(state = defaultPolls, action) {
       return state.updateIn(['polls', pollIndex, 'choices', choiceIndex, 'votes'], 1,
         v => v + 1);
 
+    case 'ADD_CHOICE':
+
+      pollIndex = 0;
+      pollIndex = state.get('polls').findKey(function(el) {
+        return (el.get('id') === action.pollID);
+      });
+      var newChoice = Immutable.fromJS({title: action.choiceTitle, votes: 0});
+
+      return state.updateIn(['polls', pollIndex, 'choices'], choices => choices.push(newChoice));
+
     case 'REQUEST_POLLS':
       return state.set('isFetching', true);
 
@@ -34,7 +44,7 @@ function polls(state = defaultPolls, action) {
     case 'ADD_POLL':
       // action.title: Title
       // action.choices: comma separated choices
-      var newPoll = {title: action.title, owner: '', choices: []};
+      var newPoll = {title: action.title, owner: action.owner, choices: []};
       action.choices.split(',').forEach( function (el) {
         newPoll.choices.push({
           title: el.trim(),
@@ -42,8 +52,23 @@ function polls(state = defaultPolls, action) {
         });
       });
       var newPollList = Immutable.fromJS(newPoll);
-      console.log(newPollList);
       return state.set('polls', state.get('polls').push(newPollList));
+
+    case 'DELETE_POLL':
+
+      return state.set('polls', state.get('polls').filter(function (el) {
+        return (el.get('id') != action.pollID);
+      }));
+
+
+    // user actions
+    // TODO put these in a separate reducer
+
+    case 'RECEIVE_USER':
+      return state.set('authUser', action.user);
+
+    case 'DROP_USER':
+      return state.set('authUser', null);
 
     default:
       return state;

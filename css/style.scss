@@ -14,3 +14,23 @@
   margin-bottom: -15px;
   margin-top: -15px;
 }
+
+.question-title {
+  font-size: 14pt;
+}
+
+.question-owner {
+  font-style: italic;
+  font-size: 8pt;
+}
+
+.hidden {
+  height: 0px;
+  width: 0px;
+  opacity: 0;
+}
+
+.question-with-delete {
+  display: flex;
+  justify-content: space-between;
+}

@@ -8,14 +8,14 @@ describe('Routing', function() {
 
   before(function(done) {
     var newPollBody = {
-      "poll":
+      'poll':
       {
-        "title": "blah",
-        "choices": [{
-            "title": "blah",
-            "votes": 0
+        'title': 'blah',
+        'choices': [{
+          'title': 'blah',
+          'votes': 0
         }],
-        "owner": "blerg"
+        'owner': 'blerg'
       }
     };
     request(url)
@@ -27,6 +27,24 @@ describe('Routing', function() {
         newId = res.body.poll._id;
         done();
       });
+  });
+
+  describe('Edit poll', function() {
+    it('should return status 200 when trying to edit a valid poll', function(done) {
+      var updatedPollBody = {
+        'choices': {
+          'title': 'blah'
+        }};
+      request(url)
+        .post('/api/addChoice/' + newId)
+        .set('Content-Type', 'application/json')
+        .send(JSON.stringify(updatedPollBody))
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          done();
+        });
+    });
   });
 
   describe('Delete poll', function() {

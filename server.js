@@ -1,34 +1,60 @@
 process.env.NODE_ENV = 'test';
 
+// env vers and related config vars
+require('dotenv').config();
+var config = require('./_config');
+
 var express = require('express');
-var mongoose = require('mongoose');
-var poll = require('./routes/poll.routes');
-var dummyData = require('./dummyData');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
+require('./js/config/passport.js')(passport);
 
-dummyData();
+// additional routes
+var api = require('./routes/api.routes');
+var auth = require('./routes/auth.routes');
 
-// require('dotenv').config();
 var app = express();
 
-mongoose.connect('mongodb://localhost/test', function (err) {
+// mongoose.connect('mongodb://localhost/test', function (err) {
+//   if (err) {
+//     console.log('Error connecting to the database. ' + err);
+//   } else {
+//     console.log('Connected to Database: ' + 'mongodb://localhost/test');
+//   }
+// });
+mongoose.connect(config.mongoURI[app.settings.env], function (err) {
   if (err) {
     console.log('Error connecting to the database. ' + err);
   } else {
-    console.log('Connected to Database: ' + 'mongodb://localhost/test');
+    console.log('Connected to Database: ' + config.mongoURI[app.settings.env]);
   }
 });
 
+// seed database with some test data if it's empty
+var dummyData = require('./dummyData');
+dummyData();
+
+app.use(session({
+  secret: 'secretVoting',
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/api',  poll);
+app.use('/api',  api);
+app.use('/auth', auth);
 app.use(express.static(__dirname + '/public'));
 
 app.get('*', function(req, res){
   console.log('Request: [GET]', req.originalUrl);
   res.sendFile(__dirname+'/views/main.html');
 });
-
 
 /**
  * Error Handling

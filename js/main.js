@@ -1,3 +1,4 @@
+// this contains the main react router routes
 var React = require('react');
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
@@ -9,13 +10,14 @@ import PollsReducer from './polls-reducer';
 import {Iterable} from 'immutable';
 
 // Top level Header
-import Header from './components/Header';
+import VisibleHeader from './components/VisibleHeader';
 
 // Layouts
 import VisibleMainLayout from './components/VisibleMainLayout';
 import VisiblePollLayout from './components/VisiblePollLayout';
 import NewPollLayout from './components/NewPollLayout';
 import LoginLayout from './components/LoginLayout';
+import VisibleMyPollsLayout from './components/VisibleMyPollsLayout';
 
 const stateTransformer = (state) => {
   if (Iterable.isIterable(state)) return state.toJS();
@@ -38,11 +40,12 @@ render(
     <Provider store={store}>
       <div>
         <Router history={browserHistory}>
-          <Route component={Header}>
+          <Route component={VisibleHeader}>
             <Route path="/" component={VisibleMainLayout} />
             <Route path="poll/:pollId" component={VisiblePollLayout} />
             <Route path="newpoll" component={NewPollLayout} />
             <Route path="login" component={LoginLayout} />
+            <Route path="mypolls" component={VisibleMyPollsLayout} />
           </Route>
         </Router>
       </div>
