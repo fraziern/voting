@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha",
-    "start": "node server.js",
+    "start": "NODE_ENV=test node server.js",
     "build": "webpack --watch --progress --colors",
     "postinstall": "webpack -p --config ./webpack.production.config.js"
   },
@@ -34,7 +34,8 @@
     "redux": "^3.5.2",
     "redux-devtools": "^3.2.0",
     "redux-logger": "^2.6.1",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "webpack": "^1.13.0"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
@@ -49,7 +50,6 @@
     "should": "^8.4.0",
     "style-loader": "^0.13.1",
     "supertest": "^1.2.0",
-    "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1"
   }
 }

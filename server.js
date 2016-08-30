@@ -1,5 +1,3 @@
-process.env.NODE_ENV = 'development';
-
 // env vers and related config vars
 require('dotenv').config();
 var config = require('./_config');
