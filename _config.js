@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 var config = {};
 
 var mongoURIProd = process.env.MONGODB_URI;

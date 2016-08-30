@@ -1,5 +1,5 @@
 // env vers and related config vars
-require('dotenv').config();
+require('dotenv').config({silent:true});
 var config = require('./_config');
 
 var express = require('express');
@@ -14,6 +14,8 @@ var api = require('./routes/api.routes');
 var auth = require('./routes/auth.routes');
 
 var app = express();
+
+console.log('NODE_ENV set to ' + app.settings.env);
 
 mongoose.connect(config.mongoURI[app.settings.env], function (err) {
   if (err) {
