@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'test';
+process.env.NODE_ENV = 'development';
 
 // env vers and related config vars
 require('dotenv').config();
@@ -17,13 +17,6 @@ var auth = require('./routes/auth.routes');
 
 var app = express();
 
-// mongoose.connect('mongodb://localhost/test', function (err) {
-//   if (err) {
-//     console.log('Error connecting to the database. ' + err);
-//   } else {
-//     console.log('Connected to Database: ' + 'mongodb://localhost/test');
-//   }
-// });
 mongoose.connect(config.mongoURI[app.settings.env], function (err) {
   if (err) {
     console.log('Error connecting to the database. ' + err);

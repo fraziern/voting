@@ -2,7 +2,7 @@ require('dotenv').config();
 
 var config = {};
 
-var mongoURIDev = process.env.MONGO_URI;
+var mongoURIDev = process.env.MONGODB_URI;
 var mongoURITest = 'mongodb://localhost/test';
 
 config.mongoURI = {
