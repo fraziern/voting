@@ -134,45 +134,43 @@ export function addVoteAction(pollID, choiceTitle) {
   return dispatch => {
     dispatch(addVote(pollID, choiceTitle));
 
-    return $.ajax({
+    return fetch('/api/addVote/' + pollID,{
       method: 'POST',
-      url: '/api/addVote/' + pollID,
-      contentType: 'application/json',
-      data: JSON.stringify({
+      credentials : 'same-origin',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
         choices: {
           title: choiceTitle
         }
       })
-    }).done(function(result) {
-      console.log('saved: ' + JSON.stringify(result));
     })
-      .fail(function(err) {
-        console.log(err);
-      });
-  };
-}
-
-// async action creator for adding a choice -
-// updates the store first, then updates mongodb
-export function addChoiceAction(pollID, choiceTitle) {
-  return dispatch => {
-    dispatch(addChoice(pollID, choiceTitle));
-
-    return $.ajax({
-      method: 'POST',
-      url: '/api/addChoice/' + pollID,
-      contentType: 'application/json',
-      data: JSON.stringify({
-        choices: {
-          title: choiceTitle
-        }
+      .then(checkStatus)
+      .then(result => {
+        console.log('saved: ' + JSON.stringify(result));
       })
-    }).done(function(result) {
-      console.log('saved: ' + JSON.stringify(result));
-    })
-      .fail(function(err) {
-        console.log(err);
+      .catch(error => {
+        console.log('addVote request failed', error);
       });
+
+    // return $.ajax({
+    //   method: 'POST',
+    //   url: '/api/addVote/' + pollID,
+    //   contentType: 'application/json',
+    //   data: JSON.stringify({
+    //     choices: {
+    //       title: choiceTitle
+    //     }
+    //   })
+    // })
+    // .done(function(result) {
+    //   console.log('saved: ' + JSON.stringify(result));
+    // })
+    //   .fail(function(err) {
+    //     console.log(err);
+    //   });
   };
 }
 
@@ -211,6 +209,32 @@ export function addPollAction(title, choices, owner) {
       });
   };
 }
+
+// async action creator for adding a choice -
+// updates the store first, then updates mongodb
+export function addChoiceAction(pollID, choiceTitle) {
+  return dispatch => {
+    dispatch(addChoice(pollID, choiceTitle));
+
+    return $.ajax({
+      method: 'POST',
+      url: '/api/addChoice/' + pollID,
+      contentType: 'application/json',
+      data: JSON.stringify({
+        choices: {
+          title: choiceTitle
+        }
+      })
+    }).done(function(result) {
+      console.log('saved: ' + JSON.stringify(result));
+    })
+      .fail(function(err) {
+        console.log(err);
+      });
+  };
+}
+
+
 
 // async action creator for deleting a poll -
 // updates store first, then updates mongodb

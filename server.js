@@ -1,4 +1,5 @@
 // env vers and related config vars
+// TODO: add NODE_ENV=test to .env and remove from package.json script
 require('dotenv').config({silent:true});
 var config = require('./_config');
 
