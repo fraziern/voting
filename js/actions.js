@@ -148,6 +148,7 @@ export function addVoteAction(pollID, choiceTitle) {
       })
     })
       .then(checkStatus)
+      .then(parseJSON)
       .then(result => {
         console.log('saved: ' + JSON.stringify(result));
       })

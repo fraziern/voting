@@ -5,6 +5,7 @@ var mongoURITest = 'mongodb://localhost/test';
 
 config.mongoURI = {
   production: mongoURIProd,
+  development: mongoURITest,
   test: mongoURITest
 };
 
