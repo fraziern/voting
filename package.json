@@ -5,9 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha",
-    "start": "NODE_ENV=test node server.js",
+    "start": "node server.js",
+    "local": "NODE_ENV=test node server.js",
     "build": "webpack --watch --progress --colors",
-    "postinstall": "webpack -p --config ./webpack.production.config.js"
+    "postinstall": "webpack --progress -p --config ./webpack.production.config.js"
   },
   "engines": {
     "node": "6.1.0"
