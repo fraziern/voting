@@ -8,6 +8,22 @@ import { browserHistory } from 'react-router';
 // TODO Passport integration with owners
 // TODO pick jquery or fetch, don't need both
 
+// Private helper functions
+
+function checkStatus(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response;
+  } else {
+    var error = new Error(response.statusText);
+    error.response = response;
+    throw error;
+  }
+}
+
+function parseJSON(response) {
+  return response.json();
+}
+
 // *** Private actinos ***
 
 function requestPolls() {
@@ -27,8 +43,12 @@ function fetchPolls() {
   return dispatch => {
     dispatch(requestPolls());
     return fetch('/api/getPolls')
-      .then(response => response.json())
-      .then(json => dispatch(receivePolls(json)));
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(json => dispatch(receivePolls(json)))
+      .catch(error => {
+        console.log('fetchPolls request failed', error);
+      });
   };
 }
 
@@ -44,8 +64,12 @@ function receiveUser(json) {
 function asyncGetUser() {
   return dispatch => {
     return fetch('/auth/user', { credentials : 'same-origin' })
-      .then(response => response.json())
-      .then(json => dispatch(receiveUser(json)));
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(json => dispatch(receiveUser(json)))
+      .catch(error => {
+        console.log('asyncGetUser request failed', error);
+      });
   };
 }
 
