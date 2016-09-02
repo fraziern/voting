@@ -36,11 +36,11 @@ router.route('/user').get((req, res) => {
 
 // TODO: signout button then refresh home = signs you back in again
 
-router.route('/logout').get(function(req, res){
+router.route('/logout').get(function(req, res, next){
   // Get rid of the session token. Then call `logout`; it does no harm.
   req.logout();
   req.session = null;
-  res.redirect('/login');
+  res.redirect('/');
 });
 
 module.exports = router;

@@ -39,7 +39,7 @@ function receivePolls(json) {
 function fetchPolls() {
   return dispatch => {
     dispatch(requestPolls());
-    return fetch('/api/getPolls')
+    return fetch('/api/getPolls', { credentials : 'same-origin' })
       .then(checkStatus)
       .then(parseJSON)
       .then(json => dispatch(receivePolls(json)))
@@ -72,8 +72,10 @@ function asyncGetUser() {
 
 function asyncLogoutUser() {
   return dispatch => {
-    dispatch(dropUser());
-    return fetch('/auth/logout');
+    return fetch('/auth/logout', { credentials : 'same-origin' })
+      .then(() => {
+        dispatch(dropUser());
+      });
   };
 }
 
