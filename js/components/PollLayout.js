@@ -8,10 +8,18 @@ class PollLayout extends React.Component {
 
   render() {
 
+    const data = this.props.data;
+
+    if (!data) {
+      return (
+        <div>Loading ... </div>
+      );
+    }
+
     return (
       <div className="poll-layout">
-        <ChoicePanel data={this.props.data} dispatch={this.props.dispatch} />
-        <ReactPieChart data={this.props.data} />
+        <ChoicePanel data={data} dispatch={this.props.dispatch} />
+        <ReactPieChart data={data} />
       </div>
     );
   }

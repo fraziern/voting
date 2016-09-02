@@ -3,10 +3,6 @@ import QuestionList from './QuestionList';
 import { fetchPollsIfNeeded, getUser } from '../actions';
 
 class MainLayout extends React.Component {
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchPollsIfNeeded());
-  }
 
   render() {
     const polls = this.props.polls;

@@ -22,7 +22,9 @@ router.route('/github/callback')
 
 router.route('/user').get((req, res) => {
   var user = {};
+  console.log('User: ' + req.user);
   if (req.user) {
+    // console.log('here');
     user.github = Object.assign(req.user.github);
     user.isAuthenticated = true;
   } else {
@@ -34,9 +36,9 @@ router.route('/user').get((req, res) => {
 // TODO: signout button then refresh home = signs you back in again
 
 router.route('/logout').get(function(req, res){
-  req.session.destroy(function() {
-    console.log('Cookies: ' + req.cookies);
-    res.clearCookie('connect.sid');
+  res.clearCookie('connect.sid');
+  req.session.destroy(function(err) {
+    console.log('User: ' + req.user);
     res.redirect('/');
   });
 });

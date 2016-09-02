@@ -19,7 +19,6 @@ function checkStatus(response) {
     throw error;
   }
 }
-
 function parseJSON(response) {
   return response.json();
 }
@@ -73,6 +72,19 @@ function asyncGetUser() {
   };
 }
 
+function asyncLogoutUser() {
+  return dispatch => {
+    dispatch(dropUser());
+    return fetch('/auth/logout');
+  };
+}
+
+function dropUser() {
+  return {
+    type: 'DROP_USER'
+  };
+}
+
 function addPoll(title, choices, owner) {
   return {
     type: 'ADD_POLL',
@@ -115,9 +127,8 @@ export function getUser() {
 
 // TODO this should probably be async, use thunks
 export function logoutUser() {
-  fetch('/auth/logout');
-  return {
-    type: 'DROP_USER'
+  return dispatch => {
+    return dispatch(asyncLogoutUser());
   };
 }
 
@@ -155,23 +166,6 @@ export function addVoteAction(pollID, choiceTitle) {
       .catch(error => {
         console.log('addVote request failed', error);
       });
-
-    // return $.ajax({
-    //   method: 'POST',
-    //   url: '/api/addVote/' + pollID,
-    //   contentType: 'application/json',
-    //   data: JSON.stringify({
-    //     choices: {
-    //       title: choiceTitle
-    //     }
-    //   })
-    // })
-    // .done(function(result) {
-    //   console.log('saved: ' + JSON.stringify(result));
-    // })
-    //   .fail(function(err) {
-    //     console.log(err);
-    //   });
   };
 }
 

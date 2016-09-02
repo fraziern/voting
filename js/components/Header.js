@@ -8,6 +8,7 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
+    this.props.getPolls();
     this.props.getUser();
   }
 

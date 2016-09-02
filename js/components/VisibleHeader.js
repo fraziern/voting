@@ -1,11 +1,13 @@
 import { connect } from 'react-redux';
 var Header = require('./Header');
-import { logoutUser, getUser } from '../actions';
+import { logoutUser, getUser, fetchPollsIfNeeded } from '../actions';
 
 // VisibleX layouts separate rendering components from connected components
 
 const mapStateToProps = (state) => {
   return {
+    polls: state.toJS().polls,
+    isFetching: state.toJS().isFetching,
     authUser: state.toJS().authUser
   };
 };
@@ -18,6 +20,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getUser: () => {
       dispatch(getUser());
+    },
+    getPolls: () => {
+      dispatch(fetchPollsIfNeeded());
     }
   };
 };

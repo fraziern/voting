@@ -5,6 +5,13 @@ class MyPollsLayout extends React.Component {
 
   render() {
     const polls = this.props.polls;
+
+    if (!polls) {
+      return (
+        <div>Loading ... </div>
+      );
+    }
+    
     return (
       <div className="mypolls-layout">
         <div className="questions-header">
