@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
+var cookieSession = require('cookie-session');
 require('./js/config/passport.js')(passport);
 
 // additional routes
@@ -30,20 +31,27 @@ mongoose.connect(config.mongoURI[app.settings.env], function (err) {
 var dummyData = require('./dummyData');
 dummyData();
 
-app.use(session({
-  secret: 'secretVoting',
-  resave: false,
-  saveUninitialized: true
+// app.use(session({
+//   secret: 'secretVoting',
+//   resave: false,
+//   saveUninitialized: false
+// }));
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
 }));
+
+app.use(express.static(__dirname + '/public'));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api',  api);
 app.use('/auth', auth);
-app.use(express.static(__dirname + '/public'));
 
 app.get('*', function(req, res){
   console.log('Request: [GET]', req.originalUrl);

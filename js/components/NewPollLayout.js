@@ -24,11 +24,13 @@ class NewPollLayout extends React.Component {
     this.setState({choices: e.target.value});
   }
 
+// TODO: handle async save errors
+
   handleSubmit(e) {
     const { dispatch, authUser } = this.props;
     console.log(this.state);
     dispatch(addPollAction(this.state.title, this.state.choices, authUser))
-      .done(() => {
+      .then(() => {
         this.setState({title: '', choices: ''});
         $('.savestate').text('Saved!');
       });

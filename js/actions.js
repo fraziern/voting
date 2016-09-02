@@ -1,12 +1,10 @@
 import fetch from 'isomorphic-fetch';
-import $ from 'jquery';
 import { browserHistory } from 'react-router';
 
 // this defines the actions available
 
 // TODO need to have a better response for successful async actions
 // TODO Passport integration with owners
-// TODO pick jquery or fetch, don't need both
 
 // Private helper functions
 
@@ -125,7 +123,6 @@ export function getUser() {
   };
 }
 
-// TODO this should probably be async, use thunks
 export function logoutUser() {
   return dispatch => {
     return dispatch(asyncLogoutUser());
@@ -185,22 +182,28 @@ export function addPollAction(title, choices, owner) {
   return dispatch => {
     dispatch(addPoll(title, choices, owner));
 
-    return $.ajax({
+    return fetch('/api/addPoll', {
       method: 'POST',
-      url: '/api/addPoll',
-      contentType: 'application/json',
-      data: JSON.stringify({
+      credentials : 'same-origin',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
         poll: {
           title,
           choices: arrayChoices,
           owner
         }
       })
-    }).done(function(result) {
-      console.log('saved: ' + JSON.stringify(result));
     })
-      .fail(function(err) {
-        console.log(err);
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(result => {
+        console.log('saved: ' + JSON.stringify(result));
+      })
+      .catch(error => {
+        console.log('addPoll request failed', error);
       });
   };
 }
@@ -211,25 +214,29 @@ export function addChoiceAction(pollID, choiceTitle) {
   return dispatch => {
     dispatch(addChoice(pollID, choiceTitle));
 
-    return $.ajax({
+    return fetch('/api/addChoice/' + pollID, {
       method: 'POST',
-      url: '/api/addChoice/' + pollID,
-      contentType: 'application/json',
-      data: JSON.stringify({
+      credentials : 'same-origin',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
         choices: {
           title: choiceTitle
         }
       })
-    }).done(function(result) {
-      console.log('saved: ' + JSON.stringify(result));
     })
-      .fail(function(err) {
-        console.log(err);
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(result => {
+        console.log('saved: ' + JSON.stringify(result));
+      })
+      .catch(error => {
+        console.log('addChoice request failed', error);
       });
   };
 }
-
-
 
 // async action creator for deleting a poll -
 // updates store first, then updates mongodb
@@ -238,14 +245,21 @@ export function deletePollAction(pollID) {
   return dispatch => {
     dispatch(deletePoll(pollID));
 
-    return $.ajax({
+    return fetch('/api/deletePoll/' + pollID, {
       method: 'DELETE',
-      url: '/api/deletePoll/' + pollID
-    }).done(function(result) {
-      console.log(JSON.stringify(result));
+      credentials : 'same-origin',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
     })
-      .fail(function(err) {
-        console.log(err);
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(result => {
+        console.log('saved: ' + JSON.stringify(result));
+      })
+      .catch(error => {
+        console.log('deletePoll request failed', error);
       });
   };
 }

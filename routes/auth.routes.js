@@ -23,6 +23,7 @@ router.route('/github/callback')
 router.route('/user').get((req, res) => {
   var user = {};
   console.log('User: ' + req.user);
+  console.log('is authenticated: ' + req.isAuthenticated());
   if (req.user) {
     // console.log('here');
     user.github = Object.assign(req.user.github);
@@ -36,11 +37,10 @@ router.route('/user').get((req, res) => {
 // TODO: signout button then refresh home = signs you back in again
 
 router.route('/logout').get(function(req, res){
-  res.clearCookie('connect.sid');
-  req.session.destroy(function(err) {
-    console.log('User: ' + req.user);
-    res.redirect('/');
-  });
+  // Get rid of the session token. Then call `logout`; it does no harm.
+  req.logout();
+  req.session = null;
+  res.redirect('/login');
 });
 
 module.exports = router;
