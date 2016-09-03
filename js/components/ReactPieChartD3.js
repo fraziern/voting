@@ -2,8 +2,8 @@ var d3 = require('d3');
 var ReactPieChartD3 = {};
 var svg, html;
 
-var width = 360;
-var height = 360;
+var width = 260;
+var height = 260;
 
 /* Initialization */
 ReactPieChartD3.create = function (el, props) {

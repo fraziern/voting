@@ -8,7 +8,7 @@ class ChoicePanel extends React.Component {
 
   render() {
     return (
-      <div className="choice-panel">
+      <div className="choice-panel col-sm-6">
         <h2>{this.props.data.title}</h2>
         <h3>I would like to vote for...</h3>
         <ChoiceList data={this.props.data} authUser={this.props.authUser} dispatch={this.props.dispatch} />

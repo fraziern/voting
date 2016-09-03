@@ -34,3 +34,8 @@
   display: flex;
   justify-content: space-between;
 }
+
+.pie-chart-container svg {
+  display: block;
+  margin: 0 auto;
+}

@@ -30,7 +30,7 @@ class ReactPieChart extends React.Component {
   }
 
   render () {
-    return <div className="pie-chart-container"></div>;
+    return <div className="pie-chart-container col-sm-6"></div>;
   }
 }
 

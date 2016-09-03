@@ -18,7 +18,7 @@ class PollLayout extends React.Component {
     }
 
     return (
-      <div className="poll-layout">
+      <div className="poll-layout row">
         <ChoicePanel data={data} authUser={authUser} dispatch={this.props.dispatch} />
         <ReactPieChart data={data} />
       </div>
