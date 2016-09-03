@@ -22,10 +22,10 @@ class Header extends React.Component {
     var newPollLink;
     if (!user) {
       loginButton = <li><Link to="/login"><button type="button" className="btn btn-default navbar-btn">Sign in</button></Link></li>;
-      newPollLink = <li><Link to="/newpoll">New Poll</Link></li>;
+      newPollLink = null;
     } else {
       loginButton = <li><Link to="#"><button onClick={this.onLogoutClick} type="button" className="btn btn-default navbar-btn">Sign out</button></Link></li>;
-      newPollLink = null;
+      newPollLink = <li><Link to="/newpoll">New Poll</Link></li>;
     }
 
     return (

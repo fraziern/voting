@@ -22,7 +22,7 @@ class ChoiceList extends React.Component {
   }
 
   render() {
-    var addChoiceIfAuth = (this.props.data.authUser) ? <AddNewChoiceForm handleAddChoice={this.handleAddChoice} /> : null;
+    var addChoiceIfAuth = (this.props.authUser) ? <AddNewChoiceForm handleAddChoice={this.handleAddChoice} /> : null;
 
     return (
       <ul className="choice-list list-group list-unstyled">

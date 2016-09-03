@@ -11,7 +11,7 @@ class ChoicePanel extends React.Component {
       <div className="choice-panel">
         <h2>{this.props.data.title}</h2>
         <h3>I would like to vote for...</h3>
-        <ChoiceList data={this.props.data} dispatch={this.props.dispatch} />
+        <ChoiceList data={this.props.data} authUser={this.props.authUser} dispatch={this.props.dispatch} />
       </div>
     );
   }

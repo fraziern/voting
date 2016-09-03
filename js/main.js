@@ -36,6 +36,7 @@ let store = createStore(
   )
 );
 
+// TODO: don't allow newpoll or mypolls if unauthorized
 render(
     <Provider store={store}>
       <div>

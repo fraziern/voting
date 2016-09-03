@@ -12,7 +12,8 @@ function getPoll(polls, pollId) {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    data: getPoll(state.toJS().polls, ownProps.params.pollId)
+    data: getPoll(state.toJS().polls, ownProps.params.pollId),
+    authUser: state.toJS().authUser
   };
 };
 
