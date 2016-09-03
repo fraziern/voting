@@ -22,8 +22,6 @@ router.route('/github/callback')
 
 router.route('/user').get((req, res) => {
   var user = {};
-  console.log('User: ' + req.user);
-  console.log('is authenticated: ' + req.isAuthenticated());
   if (req.user) {
     // console.log('here');
     user.github = Object.assign(req.user.github);

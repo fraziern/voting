@@ -19,10 +19,13 @@ class Header extends React.Component {
   render() {
     const user = this.props.authUser;
     var loginButton;
+    var newPollLink;
     if (!user) {
       loginButton = <li><Link to="/login"><button type="button" className="btn btn-default navbar-btn">Sign in</button></Link></li>;
+      newPollLink = <li><Link to="/newpoll">New Poll</Link></li>;
     } else {
       loginButton = <li><Link to="#"><button onClick={this.onLogoutClick} type="button" className="btn btn-default navbar-btn">Sign out</button></Link></li>;
+      newPollLink = null;
     }
 
     return (
@@ -41,7 +44,7 @@ class Header extends React.Component {
 
               <div className="collapse navbar-collapse" id="navbar-collapse-1">
                   <ul className="nav navbar-nav navbar-right">
-                      <li><Link to="/newpoll">New Poll</Link></li>
+                      {newPollLink}
                       <li><Link to="/">Home</Link></li>
                       {user && <li><Link to="/mypolls">{user}</Link></li>}
                       {loginButton}
