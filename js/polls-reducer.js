@@ -3,7 +3,9 @@ var Immutable = require('immutable');
 
 const defaultPolls = Immutable.fromJS({
   polls: [],
-  authUser: null
+  authUser: null,
+  isSaving: false,
+  isFetching: false
 });
 
 function polls(state = defaultPolls, action) {
@@ -41,10 +43,21 @@ function polls(state = defaultPolls, action) {
       var newState = state.set('isFetching', false);
       return newState.set('polls', Immutable.fromJS(action.polls));
 
+    case 'ADD_POLL_REQUEST':
+      return state.set('isSaving', true);
+
+    case 'ADD_POLL_FAILED':
+      // error: oops
+      // TODO: implement this
+      return state;
+
     case 'ADD_POLL':
+      // This is the "success" action
+      // action.owner: owner
       // action.title: Title
       // action.choices: comma separated choices
-      var newPoll = {title: action.title, owner: action.owner, choices: []};
+      // action.id: returned from save API call
+      var newPoll = {title: action.title, owner: action.owner, choices: [], id: action.id};
       action.choices.split(',').forEach( function (el) {
         newPoll.choices.push({
           title: el.trim(),
@@ -52,7 +65,8 @@ function polls(state = defaultPolls, action) {
         });
       });
       var newPollList = Immutable.fromJS(newPoll);
-      return state.set('polls', state.get('polls').push(newPollList));
+      var newState = state.set('isSaving', false);
+      return newState.set('polls', state.get('polls').push(newPollList));
 
     case 'DELETE_POLL':
 

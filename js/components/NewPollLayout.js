@@ -29,9 +29,11 @@ class NewPollLayout extends React.Component {
   handleSubmit(e) {
     const { dispatch, authUser } = this.props;
     console.log(this.state);
+    // $('.spinner').removeClass('hidden');
     dispatch(addPollAction(this.state.title, this.state.choices, authUser))
       .then(() => {
         this.setState({title: '', choices: ''});
+        // $('.spinner').addClass('hidden');
         $('.savestate').text('Saved!');
       });
 
@@ -42,6 +44,13 @@ class NewPollLayout extends React.Component {
   }
 
   render() {
+    var submitButton;
+    if (this.props.isSaving) {
+      submitButton = <img className="spinner" src="img/Floatingrays.gif" height="20" width="20" />;
+    } else {
+      submitButton = <button onClick={this.handleSubmit} className="submit btn btn-default">Create</button>;
+    }
+
     return (
       <div className="newpoll-layout">
         <div className="newpoll-header">
@@ -49,7 +58,7 @@ class NewPollLayout extends React.Component {
         </div>
         <form>
           <div className="form-group">
-            <label HTMLfor="inputTitle">Title</label>
+            <label htmlFor="inputTitle">Title</label>
             <input
               type="text"
               onChange={this.handleTitleChange}
@@ -71,7 +80,7 @@ class NewPollLayout extends React.Component {
             />
           </div>
           <p className="savestate text-muted">Owner: {this.props.authUser}</p>
-          <button onClick={this.handleSubmit} className="btn btn-default">Create</button>
+          {submitButton}
         </form>
       </div>
     );
@@ -85,7 +94,8 @@ NewPollLayout.propTypes = {
 function mapStateToProps(state) {
   return {
     polls: state.toJS().polls,
-    authUser: state.toJS().authUser
+    authUser: state.toJS().authUser,
+    isSaving: state.toJS().isSaving
   };
 }
 

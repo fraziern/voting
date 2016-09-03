@@ -85,12 +85,19 @@ function dropUser() {
   };
 }
 
-function addPoll(title, choices, owner) {
+function requestAddPoll() {
+  return {
+    type: 'ADD_POLL_REQUEST'
+  };
+}
+
+function addPoll(title, choices, owner, id) {
   return {
     type: 'ADD_POLL',
     title,
     choices,
-    owner
+    owner,
+    id
   };
 }
 
@@ -182,7 +189,7 @@ export function addPollAction(title, choices, owner) {
   });
 
   return dispatch => {
-    dispatch(addPoll(title, choices, owner));
+    dispatch(requestAddPoll());   // flag that we're attempting a save
 
     return fetch('/api/addPoll', {
       method: 'POST',
@@ -203,6 +210,7 @@ export function addPollAction(title, choices, owner) {
       .then(parseJSON)
       .then(result => {
         console.log('saved: ' + JSON.stringify(result));
+        dispatch(addPoll(title, choices, owner, result.poll.id));
       })
       .catch(error => {
         console.log('addPoll request failed', error);
