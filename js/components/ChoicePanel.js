@@ -7,11 +7,15 @@ class ChoicePanel extends React.Component {
   }
 
   render() {
+    var tweetLocation = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(location.href);
+    console.log(tweetLocation);
+
     return (
       <div className="choice-panel col-sm-6">
         <h2>{this.props.data.title}</h2>
         <h3>I would like to vote for...</h3>
         <ChoiceList data={this.props.data} authUser={this.props.authUser} dispatch={this.props.dispatch} />
+        <a className="twitter-share-button" href={tweetLocation}><img src="/img/Twitter_Logo_Blue.svg" width="20" height="20"/> Tweet This Poll</a>
       </div>
     );
   }

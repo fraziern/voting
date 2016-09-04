@@ -46,7 +46,7 @@ class NewPollLayout extends React.Component {
   render() {
     var submitButton;
     if (this.props.isSaving) {
-      submitButton = <img className="spinner" src="img/Floatingrays.gif" height="20" width="20" />;
+      submitButton = <img className="spinner" src="/img/Floatingrays.gif" height="20" width="20" />;
     } else {
       submitButton = <button onClick={this.handleSubmit} className="submit btn btn-default">Create</button>;
     }
