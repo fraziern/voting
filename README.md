@@ -14,7 +14,7 @@ Technologies used include:
   - Node.js
   - D3
   - Webpack with Babel and Sass loaders
-  - Passport (forthcoming)
+  - Passport
 
 ## Building
 
